@@ -25,7 +25,9 @@
             android:id="@+id/meContainer"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="170dp"
+            android:layout_marginTop="3dp"
+            app:layout_anchor="@id/toolbar"
+            app:layout_anchorGravity="bottom|start"
             android:background="@color/aqua"
             android:fitsSystemWindows="true" />
 
