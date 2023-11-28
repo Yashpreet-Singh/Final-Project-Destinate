@@ -58,24 +58,33 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
 
         //setup bottom navigation
         val bottomnav = findViewById<BottomNavigationView>(R.id.bottom_nav)
-        bottomnav.setOnNavigationItemReselectedListener {
+        bottomnav.selectedItemId = R.id.plan_action
+
+        //deafult fargment display
+        val plan = PlanFragment.newInstance(1.toString(),2.toString())
+        supportFragmentManager.beginTransaction().replace(R.id.meContainer, plan).addToBackStack("null").commit()
+
+        bottomnav.setOnItemSelectedListener {
             when (it.itemId) {
                 R.id.plan_action -> {
-                    val fr = PlanFragment.newInstance(1.toString(),2.toString())
+                    val plan2 = PlanFragment.newInstance(1.toString(),2.toString())
                     //myToolbar.title = "Linear Layout"
-                    supportFragmentManager.beginTransaction().replace(R.id.meContainer, fr).commit()
+                    supportFragmentManager.beginTransaction().replace(R.id.meContainer, plan2).addToBackStack("null").commit()
                 }
-//                R.id.action_grid -> {
+//                R.id.book_action -> {
 //                    val fr = LayoutFragment.newInstance(2)
 //                    myToolbar.title = "Grid Layout"
 //                    supportFragmentManager.beginTransaction().replace(R.id.lmContainer, fr).commit()
 //                }
-//                R.id.action_staggered -> {
-//                    val fr = LayoutFragment.newInstance(3)
-//                    myToolbar.title = "Staggered Grid Layout"
-//                    supportFragmentManager.beginTransaction().replace(R.id.lmContainer, fr).commit()
-//                }
+                R.id.community_action -> {
+                    val community = CommunityFragment.newInstance(1.toString(),2.toString())
+                    //myToolbar.title = "Staggered Grid Layout"
+                    supportFragmentManager.beginTransaction().replace(R.id.meContainer, community).addToBackStack("null").commit()
+                }
+
+                else -> {}
             }
+            true //tell that this item selector is registered
         }
 //
 //        // Default - linear layout manager
