@@ -13,6 +13,7 @@ import androidx.appcompat.widget.SearchView
 import androidx.appcompat.widget.Toolbar
 import androidx.core.view.GravityCompat
 import androidx.drawerlayout.widget.DrawerLayout
+import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.google.android.material.navigation.NavigationView
 
 class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelectedListener {
@@ -56,13 +57,14 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
 
 
         //setup bottom navigation
-//        bottom_nav.setOnNavigationItemReselectedListener {
-//            when (it.itemId) {
-//                R.id.action_linear -> {
-//                    val fr = LayoutFragment.newInstance(1)
-//                    myToolbar.title = "Linear Layout"
-//                    supportFragmentManager.beginTransaction().replace(R.id.lmContainer, fr).commit()
-//                }
+        val bottomnav = findViewById<BottomNavigationView>(R.id.bottom_nav)
+        bottomnav.setOnNavigationItemReselectedListener {
+            when (it.itemId) {
+                R.id.plan_action -> {
+                    val fr = PlanFragment.newInstance(1.toString(),2.toString())
+                    //myToolbar.title = "Linear Layout"
+                    supportFragmentManager.beginTransaction().replace(R.id.meContainer, fr).commit()
+                }
 //                R.id.action_grid -> {
 //                    val fr = LayoutFragment.newInstance(2)
 //                    myToolbar.title = "Grid Layout"
@@ -73,8 +75,8 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
 //                    myToolbar.title = "Staggered Grid Layout"
 //                    supportFragmentManager.beginTransaction().replace(R.id.lmContainer, fr).commit()
 //                }
-//            }
-//        }
+            }
+        }
 //
 //        // Default - linear layout manager
 //        val fr = LayoutFragment.newInstance(1)
@@ -85,6 +87,7 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
 
     override fun onNavigationItemSelected(item: MenuItem): Boolean {
         TODO("Not yet implemented")
+        //profile
     }
 
     override fun onCreateOptionsMenu(menu: Menu?): Boolean {
@@ -93,7 +96,7 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
         inflater.inflate(R.menu.search_menu, menu)
 
         val searchItem = menu?.findItem(R.id.action_search)
-        val search = searchItem?.actionView as SearchView
+        //val search = searchItem?.actionView as SearchView
 
 //        // Set input type
 //        search.inputType = InputType.TYPE_CLASS_TEXT

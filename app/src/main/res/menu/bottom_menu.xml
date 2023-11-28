@@ -3,21 +3,21 @@
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <item
-        android:id="@+id/action_1"
+        android:id="@+id/plan_action"
         android:enabled="true"
         android:title="Plan"
 
         app:showAsAction="ifRoom" />
 
     <item
-        android:id="@+id/action_2"
+        android:id="@+id/book_action"
         android:enabled="true"
         android:title="Book"
 
         app:showAsAction="ifRoom" />
 
     <item
-        android:id="@+id/action_3"
+        android:id="@+id/community_action"
         android:enabled="true"
         android:title="Community"
 
