@@ -13,12 +13,16 @@ import androidx.appcompat.widget.SearchView
 import androidx.appcompat.widget.Toolbar
 import androidx.core.view.GravityCompat
 import androidx.drawerlayout.widget.DrawerLayout
+import androidx.navigation.NavController
+import androidx.navigation.fragment.NavHostFragment
+import androidx.navigation.ui.NavigationUI.setupWithNavController
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.google.android.material.navigation.NavigationView
 
 class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelectedListener {
 
     lateinit var drawerlayout: DrawerLayout
+    private lateinit var  navController : NavController
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
@@ -58,34 +62,42 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
 
         //setup bottom navigation
         val bottomnav = findViewById<BottomNavigationView>(R.id.bottom_nav)
-        bottomnav.selectedItemId = R.id.plan_action
 
-        //deafult fargment display
-        val plan = PlanFragment.newInstance(1.toString(),2.toString())
-        supportFragmentManager.beginTransaction().replace(R.id.meContainer, plan).addToBackStack("null").commit()
+        //setup navigation between fragments using nagvigation.xml
+        val navHostFragment = supportFragmentManager.findFragmentById(R.id.fragmentContainerView) as NavHostFragment
+        navController = navHostFragment.navController
+        setupWithNavController(bottomnav, navController) // menuitem and fragment must have same id
 
-        bottomnav.setOnItemSelectedListener {
-            when (it.itemId) {
-                R.id.plan_action -> {
-                    val plan2 = PlanFragment.newInstance(1.toString(),2.toString())
-                    //myToolbar.title = "Linear Layout"
-                    supportFragmentManager.beginTransaction().replace(R.id.meContainer, plan2).addToBackStack("null").commit()
-                }
-//                R.id.book_action -> {
-//                    val fr = LayoutFragment.newInstance(2)
-//                    myToolbar.title = "Grid Layout"
-//                    supportFragmentManager.beginTransaction().replace(R.id.lmContainer, fr).commit()
+
+
+//        bottomnav.selectedItemId = R.id.plan_action
+//
+//        //deafult fargment display
+//        val plan = PlanFragment.newInstance(1.toString(),2.toString())
+//        supportFragmentManager.beginTransaction().replace(R.id.meContainer, plan).addToBackStack("null").commit()
+//
+//        bottomnav.setOnItemSelectedListener {
+//            when (it.itemId) {
+//                R.id.plan_action -> {
+//                    val plan2 = PlanFragment.newInstance(1.toString(),2.toString())
+//                    //myToolbar.title = "Linear Layout"
+//                    supportFragmentManager.beginTransaction().replace(R.id.meContainer, plan2).addToBackStack("null").commit()
 //                }
-                R.id.community_action -> {
-                    val community = CommunityFragment.newInstance(1.toString(),2.toString())
-                    //myToolbar.title = "Staggered Grid Layout"
-                    supportFragmentManager.beginTransaction().replace(R.id.meContainer, community).addToBackStack("null").commit()
-                }
-
-                else -> {}
-            }
-            true //tell that this item selector is registered
-        }
+////                R.id.book_action -> {
+////                    val fr = LayoutFragment.newInstance(2)
+////                    myToolbar.title = "Grid Layout"
+////                    supportFragmentManager.beginTransaction().replace(R.id.lmContainer, fr).commit()
+////                }
+//                R.id.community_action -> {
+//                    val community = CommunityFragment.newInstance(1.toString(),2.toString())
+//                    //myToolbar.title = "Staggered Grid Layout"
+//                    supportFragmentManager.beginTransaction().replace(R.id.meContainer, community).addToBackStack("null").commit()
+//                }
+//
+//                else -> {}
+//            }
+//            true //tell that this item selector is registered
+//        }
 //
 //        // Default - linear layout manager
 //        val fr = LayoutFragment.newInstance(1)
@@ -95,12 +107,12 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
     }
 
     override fun onNavigationItemSelected(item: MenuItem): Boolean {
-        TODO("Not yet implemented")
-        //profile
+        //drawer handle items
+        return TODO("Provide the return value")
     }
 
     override fun onCreateOptionsMenu(menu: Menu?): Boolean {
-        // inflate the menu into toolbar
+        // inflate the menu into top toolbar
         val inflater = menuInflater
         inflater.inflate(R.menu.search_menu, menu)
 
