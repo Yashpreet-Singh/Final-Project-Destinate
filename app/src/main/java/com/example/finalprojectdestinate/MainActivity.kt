@@ -1,5 +1,6 @@
 package com.example.finalprojectdestinate
 
+import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.text.InputType
@@ -63,10 +64,10 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
         //setup bottom navigation
         val bottomnav = findViewById<BottomNavigationView>(R.id.bottom_nav)
 
-        //setup navigation between fragments using nagvigation.xml
+        //setup navigation between fragments using nagvigation.xml (Navigation Component)
         val navHostFragment = supportFragmentManager.findFragmentById(R.id.fragmentContainerView) as NavHostFragment
         navController = navHostFragment.navController
-        setupWithNavController(bottomnav, navController) // menuitem and fragment must have same id
+        setupWithNavController(bottomnav, navController) // menuitem in bottom_menu and their respective fragment must have same id
 
 
 
@@ -108,7 +109,21 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
 
     override fun onNavigationItemSelected(item: MenuItem): Boolean {
         //drawer handle items
-        return TODO("Provide the return value")
+//        R.id.about_me ->{
+//            supportActionBar?.title ="About Me"
+//            supportFragmentManager.beginTransaction().add(R.id.meContainer, AboutMe()).addToBackStack(null).commit()
+//        }
+//        R.id.task_2 ->{
+//            val intent = Intent(this, RecycleView::class.java)
+//            startActivity(intent)
+//        }
+//        R.id.task_3 ->{
+//            val intent = Intent(this, RecycleView2::class.java)
+//            startActivity(intent)
+//        }
+//    }
+    drawerlayout.closeDrawer(GravityCompat.START)
+    return true
     }
 
     override fun onCreateOptionsMenu(menu: Menu?): Boolean {
