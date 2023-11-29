@@ -5,6 +5,8 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.activity.OnBackPressedCallback
+import androidx.navigation.fragment.findNavController
 
 // TODO: Rename parameter arguments, choose names that match
 // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
@@ -33,6 +35,19 @@ class CommunityFragment : Fragment() {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
+
+
+        //when you press backbutton while you are in communitiy fragment, goes back to plan fragment
+        val onBackPressedCallback =object: OnBackPressedCallback(true) {
+            override fun handleOnBackPressed() {
+                findNavController().navigate(R.id.action_communityFragment_to_planFragment)
+            }
+
+        }
+        //regesister the backpress to this fragment
+        requireActivity().onBackPressedDispatcher.addCallback(onBackPressedCallback)
+
+
         // Inflate the layout for this fragment
         return inflater.inflate(R.layout.fragment_community, container, false)
     }
