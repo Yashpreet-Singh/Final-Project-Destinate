@@ -5,52 +5,37 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.activity.OnBackPressedCallback
-import androidx.navigation.fragment.findNavController
+import kotlinx.coroutines.*
 
-// TODO: Rename parameter arguments, choose names that match
-// the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
-private const val ARG_PARAM1 = "param1"
-private const val ARG_PARAM2 = "param2"
-
-/**
- * A simple [Fragment] subclass.
- * Use the [BookFragment.newInstance] factory method to
- * create an instance of this fragment.
- */
 class BookFragment : Fragment() {
-    // TODO: Rename and change types of parameters
-    private var param1: String? = null
-    private var param2: String? = null
-
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        arguments?.let {
-            param1 = it.getString(ARG_PARAM1)
-            param2 = it.getString(ARG_PARAM2)
-        }
+    private val flightApiService by lazy {
+        RetrofitClient.retrofitInstance.create(FlightApiService::class.java)
     }
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-
-        //when you press backbutton while you are in communitiy fragment, goes back to plan fragment
-        val onBackPressedCallback =object: OnBackPressedCallback(true) {
-            override fun handleOnBackPressed() {
-                findNavController().navigate(R.id.action_bookFragment_to_planFragment)
-            }
-
-        }
-        //regesister the backpress to this fragment
-        requireActivity().onBackPressedDispatcher.addCallback(onBackPressedCallback)
-
-
-        // Inflate the layout for this fragment
         return inflater.inflate(R.layout.fragment_book, container, false)
+    }
 
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+        fetchFlights()
+    }
 
+    private fun fetchFlights() {
+        CoroutineScope(Dispatchers.IO).launch {
+            try {
+                val flightList = flightApiService.getFlights("YOUR_API_KEY")
+                withContext(Dispatchers.Main) {
+                    // Update UI with flight data
+                    // e.g., use a RecyclerView adapter to display flights
+                }
+            } catch (e: Exception) {
+                // Handle error
+            }
+        }
     }
 
     companion object {

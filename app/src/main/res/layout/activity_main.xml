@@ -8,7 +8,6 @@
     android:fitsSystemWindows="true"
     tools:openDrawer="start">
 
-
     <androidx.coordinatorlayout.widget.CoordinatorLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
@@ -58,18 +57,10 @@
             android:layout_width="match_parent"
             android:layout_height="?attr/actionBarSize"
             android:layout_gravity="bottom|start"
-
-
-
             app:itemBackground="@color/colorPrimary"
-
             android:elevation="16dp"
-
             android:layout_alignParentBottom="true"
             app:menu="@menu/bottom_menu"/>
-
-
-
 
     </androidx.coordinatorlayout.widget.CoordinatorLayout>
 
@@ -82,8 +73,5 @@
         app:headerLayout="@layout/navi_header"
         app:menu="@menu/nav_menu"
         />
-
-
-
 
 </androidx.drawerlayout.widget.DrawerLayout>
