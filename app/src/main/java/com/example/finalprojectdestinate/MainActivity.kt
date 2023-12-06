@@ -108,7 +108,7 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
     }
 
     override fun onNavigationItemSelected(item: MenuItem): Boolean {
-        //drawer handle items
+//drawer handle items
 //        R.id.about_me ->{
 //            supportActionBar?.title ="About Me"
 //            supportFragmentManager.beginTransaction().add(R.id.meContainer, AboutMe()).addToBackStack(null).commit()

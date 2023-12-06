@@ -15,6 +15,11 @@
             app:destination="@id/communityFragment" />
     </fragment>
     <fragment
+        android:id="@+id/bookFragment"
+        android:name="com.example.finalprojectdestinate.BookFragment"
+        android:label="fragment_book"
+        tools:layout="@layout/fragment_book" />
+    <fragment
         android:id="@+id/communityFragment"
         android:name="com.example.finalprojectdestinate.CommunityFragment"
         android:label="fragment_community"

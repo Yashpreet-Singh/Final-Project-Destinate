@@ -13,7 +13,6 @@
         android:id="@+id/bookFragment"
         android:enabled="true"
         android:title="Book"
-
         app:showAsAction="ifRoom" />
 
     <item
