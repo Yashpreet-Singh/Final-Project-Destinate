@@ -21,6 +21,10 @@ class BookFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        val rvFlights = view.findViewById<RecyclerView>(R.id.rvFlights)
+        rvFlights.layoutManager = LinearLayoutManager(context)
+        rvFlights.adapter = FlightAdapter(emptyList())
+
         fetchFlights()
     }
 
@@ -29,11 +33,12 @@ class BookFragment : Fragment() {
             try {
                 val flightList = flightApiService.getFlights("YOUR_API_KEY")
                 withContext(Dispatchers.Main) {
-                    // Update UI with flight data
-                    // e.g., use a RecyclerView adapter to display flights
+                    val rvFlights = view?.findViewById<RecyclerView>(R.id.rvFlights)
+                    if (rvFlights != null) {
+                        rvFlights.adapter = FlightAdapter(flightList)
+                    }
                 }
             } catch (e: Exception) {
-                // Handle error
             }
         }
     }
