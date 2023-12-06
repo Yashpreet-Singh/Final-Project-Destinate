@@ -51,6 +51,8 @@ class PlanFragment : Fragment() {
 
         viewpager.adapter = VPAdapter(this)
 
+        viewpager.isUserInputEnabled = false //disable swipping
+
         // Use TabLayoutMediator to set the tab text
         TabLayoutMediator(tabcontent, viewpager) { tab, position ->
             val adapter = viewpager.adapter as VPAdapter
