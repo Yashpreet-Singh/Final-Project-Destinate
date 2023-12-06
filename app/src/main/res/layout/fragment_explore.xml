@@ -1,14 +1,91 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     tools:context=".ExploreFragment">
 
-    <!-- TODO: Update blank fragment layout -->
-    <TextView
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:text="Hello exlpre fragemnt" />
 
-</FrameLayout>
+
+    <TextView
+        android:id="@+id/overview_title"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="TextView"
+        android:layout_alignParentTop="true"/>
+
+    <TextView
+        android:id="@+id/overview_content"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="TextView"
+        android:layout_marginTop="5dp"
+        android:layout_below="@id/overview_title"/>
+
+    <TextView
+        android:id="@+id/tourism_title"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="TextView"
+        android:layout_marginTop="5dp"
+        android:layout_below="@id/overview_content"/>
+
+    <HorizontalScrollView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/tourism_title"
+        android:id="@+id/horizontal_scroll"
+        android:fillViewport="true">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:id="@+id/grid_vid"
+            android:orientation="horizontal">
+
+            <WebView
+                android:layout_width="200dp"
+                android:layout_height="150dp"
+                android:layout_margin="5dp"
+
+                android:id ="@+id/youtube_vid1">
+            </WebView>
+
+            <WebView
+                android:id="@+id/youtube_vid2"
+                android:layout_width="200dp"
+                android:layout_height="150dp"
+
+                android:layout_margin="5dp">
+            </WebView>
+
+            <WebView
+                android:layout_width="200dp"
+                android:layout_height="150dp"
+                android:layout_margin="5dp"
+                android:id ="@+id/youtube_vid3">
+            </WebView>
+
+            <WebView
+                android:layout_width="200dp"
+                android:layout_height="150dp"
+                android:layout_margin="5dp"
+                android:id ="@+id/youtube_vid4">
+            </WebView>
+
+
+
+        </LinearLayout>
+
+    </HorizontalScrollView>
+
+    <TextView
+        android:id="@+id/activities_title"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="TextView"
+        android:layout_below="@id/horizontal_scroll"/>
+
+
+</RelativeLayout>

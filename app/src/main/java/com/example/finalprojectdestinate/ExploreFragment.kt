@@ -5,6 +5,8 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.webkit.WebChromeClient
+import android.webkit.WebView
 
 // TODO: Rename parameter arguments, choose names that match
 // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
@@ -21,12 +23,16 @@ class ExploreFragment : Fragment() {
     private var param1: String? = null
     private var param2: String? = null
 
+    private lateinit var youtubeframe1 : WebView
+    private lateinit var youtubeframe2 : WebView
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         arguments?.let {
             param1 = it.getString(ARG_PARAM1)
             param2 = it.getString(ARG_PARAM2)
         }
+
+
     }
 
     override fun onCreateView(
@@ -34,7 +40,23 @@ class ExploreFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View? {
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_explore, container, false)
+        val view = inflater.inflate(R.layout.fragment_explore, container, false)
+
+        youtubeframe1 =view.findViewById(R.id.youtube_vid1)
+        val video1 = "<iframe width=\"100%\" height=\"100%\" src=\"https://www.youtube.com/embed/V2KCAfHjySQ?si=NPdGFAQsSF4pLR6x\" title=\"YouTube video player\" frameborder=\"0\" allow=\"accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share\" allowfullscreen></iframe>"
+        youtubeframe1.loadData(video1,"text/html","uft-8")
+        youtubeframe1.settings.javaScriptEnabled = true
+        youtubeframe1.webChromeClient= WebChromeClient()
+
+        youtubeframe2 =view.findViewById(R.id.youtube_vid2)
+        val video2 = "<iframe width=\"100%\" height=\"100%\" src=\"https://www.youtube.com/embed/V2KCAfHjySQ?si=NPdGFAQsSF4pLR6x\" title=\"YouTube video player\" frameborder=\"0\" allow=\"accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share\" allowfullscreen></iframe>"
+        youtubeframe2.loadData(video2,"text/html","uft-8")
+        youtubeframe2.settings.javaScriptEnabled = true
+        youtubeframe2.webChromeClient= WebChromeClient()
+
+
+
+        return view
     }
 
     companion object {
