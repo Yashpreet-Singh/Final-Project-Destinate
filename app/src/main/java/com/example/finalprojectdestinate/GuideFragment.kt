@@ -6,6 +6,7 @@ import android.content.pm.PackageManager
 import android.location.Location
 import android.location.LocationManager
 import android.os.Bundle
+import android.util.Log
 import android.view.InputDevice
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
@@ -171,11 +172,19 @@ class GuideFragment : Fragment(), OnMapReadyCallback {
     override fun onMapReady(googleMap: GoogleMap) {
         //myGoogleMap =googleMap
         val SYR = LatLng(currentLocation.latitude, currentLocation.longitude)
-        val markerOptions = MarkerOptions()
-        markerOptions.position(SYR)
-        markerOptions.title("Syracuse, NY")
-        markerOptions.snippet("Center of the Universe")
-        googleMap.addMarker(markerOptions)
+        Log.i("lockk",currentLocation.toString())
+
+        Log.d("loc",(currentLocation.latitude).toString())
+        googleMap.addMarker(
+            MarkerOptions()
+                .position(SYR)
+                .title("Syracuse, NY")
+        )
+//        val markerOptions = MarkerOptions()
+//        markerOptions.position(SYR)
+//        markerOptions.title("Syracuse, NY")
+//        markerOptions.snippet("Center of the Universe")
+//        googleMap.addMarker(markerOptions)
 
         googleMap.moveCamera(CameraUpdateFactory.newLatLng(SYR))
         googleMap.animateCamera(CameraUpdateFactory.newLatLngZoom(SYR, 8f))
@@ -207,8 +216,14 @@ class GuideFragment : Fragment(), OnMapReadyCallback {
                 if (location != null)
                 {
                     currentLocation = location
+                    Log.i("lockk here ",currentLocation.toString())
                     val mapFragment : SupportMapFragment? = childFragmentManager.findFragmentById(R.id.map) as SupportMapFragment?
                     mapFragment?.getMapAsync(this)
+                }
+                else {
+                    Log.d("loc", "Current location not available")
+                    // Show message to user
+                    Toast.makeText(requireContext(), "Location unavailable", Toast.LENGTH_SHORT).show()
                 }
 
         }
