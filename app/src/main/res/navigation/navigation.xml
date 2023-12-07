@@ -15,21 +15,17 @@
             app:destination="@id/communityFragment" />
     </fragment>
     <fragment
+        android:id="@+id/bookFragment"
+        android:name="com.example.finalprojectdestinate.BookFragment"
+        android:label="fragment_book"
+        tools:layout="@layout/fragment_book" />
+    <fragment
         android:id="@+id/communityFragment"
         android:name="com.example.finalprojectdestinate.CommunityFragment"
         android:label="fragment_community"
         tools:layout="@layout/fragment_community" >
         <action
             android:id="@+id/action_communityFragment_to_planFragment"
-            app:destination="@id/planFragment" />
-    </fragment>
-    <fragment
-        android:id="@+id/bookFragment"
-        android:name="com.example.finalprojectdestinate.BookFragment"
-        android:label="fragment_book"
-        tools:layout="@layout/fragment_book" >
-        <action
-            android:id="@+id/action_bookFragment_to_planFragment"
             app:destination="@id/planFragment" />
     </fragment>
 </navigation>

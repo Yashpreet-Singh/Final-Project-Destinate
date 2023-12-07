@@ -1,13 +1,49 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:orientation="vertical"
     tools:context=".BookFragment">
 
+    <!-- From Location Input -->
+    <EditText
+        android:id="@+id/etFromLocation"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="From Location"
+        android:inputType="text"/>
+
+    <!-- To Location Input -->
+    <EditText
+        android:id="@+id/etToLocation"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="To Location"
+        android:inputType="text"/>
+
+    <!-- Date Input -->
+    <EditText
+        android:id="@+id/etDate"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="Date (YYYY-MM-DD)"
+        android:inputType="date"/>
+
+    <!-- Search Button -->
+    <Button
+        android:id="@+id/btnSearchFlights"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Search Flights"
+        android:layout_gravity="center_horizontal"/>
+
+    <!-- RecyclerView for displaying flights -->
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/rvFlights"
         android:layout_width="match_parent"
-        android:layout_height="match_parent" />
+        android:layout_height="0dp"
+        android:layout_weight="1"/>
 
-</FrameLayout>
+</LinearLayout>
+
