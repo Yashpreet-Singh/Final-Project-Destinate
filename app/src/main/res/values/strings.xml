@@ -5,5 +5,9 @@
 
     <string name="yashmaps_api">AIzaSyDyXrfYODXBNEVpjo1CecDsXccqW6-2Res</string>
     <string name="hello_blank_fragment">PutAnythingYouWantHere</string>
-    <string name="add_post"> Add a new post</string>s
+    <string name= "add_post"> Add a new post</string>
+
+    <string name= "overviewtitle"> Overview </string>
+    <string name= "tourismtitle"> Toursim </string>
+    <string name= "thingstodo"> Things To Do </string>
 </resources>
