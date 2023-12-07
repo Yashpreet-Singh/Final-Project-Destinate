@@ -7,6 +7,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.webkit.WebChromeClient
 import android.webkit.WebView
+import android.webkit.WebViewClient
 
 // TODO: Rename parameter arguments, choose names that match
 // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
@@ -40,23 +41,32 @@ class ExploreFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View? {
         // Inflate the layout for this fragment
-        val view = inflater.inflate(R.layout.fragment_explore, container, false)
+
+        return inflater.inflate(R.layout.fragment_explore, container, false)
+    }
+
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+
+        val userAgentData ="Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/119.0.0.0 Safari/537.36"
 
         youtubeframe1 =view.findViewById(R.id.youtube_vid1)
         val video1 = "<iframe width=\"100%\" height=\"100%\" src=\"https://www.youtube.com/embed/V2KCAfHjySQ?si=NPdGFAQsSF4pLR6x\" title=\"YouTube video player\" frameborder=\"0\" allow=\"accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share\" allowfullscreen></iframe>"
         youtubeframe1.loadData(video1,"text/html","uft-8")
         youtubeframe1.settings.javaScriptEnabled = true
         youtubeframe1.webChromeClient= WebChromeClient()
+        youtubeframe1.webViewClient = WebViewClient()
+        youtubeframe1.settings.userAgentString = userAgentData
 
         youtubeframe2 =view.findViewById(R.id.youtube_vid2)
         val video2 = "<iframe width=\"100%\" height=\"100%\" src=\"https://www.youtube.com/embed/V2KCAfHjySQ?si=NPdGFAQsSF4pLR6x\" title=\"YouTube video player\" frameborder=\"0\" allow=\"accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share\" allowfullscreen></iframe>"
         youtubeframe2.loadData(video2,"text/html","uft-8")
         youtubeframe2.settings.javaScriptEnabled = true
         youtubeframe2.webChromeClient= WebChromeClient()
+        youtubeframe2.webViewClient = WebViewClient()
+        youtubeframe2.settings.userAgentString = userAgentData
 
 
-
-        return view
     }
 
     companion object {

@@ -1,11 +1,15 @@
 package com.example.finalprojectdestinate
 
 import android.os.Bundle
+import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Button
+import android.widget.ImageButton
 import androidx.activity.OnBackPressedCallback
+import androidx.cardview.widget.CardView
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
@@ -28,7 +32,12 @@ class CommunityFragment : Fragment(), RecycleAdapter.MyItemClickListener{
     lateinit var userListdb: ArrayList<UserData>
     private val myDB: DatabaseHelper by lazy { DatabaseHelper(requireContext()) }
 
+    private lateinit var addButton: ImageButton
+    private lateinit var addCard : CardView
+    private lateinit var postButton: Button
+
     private lateinit var recyclerView: RecyclerView
+    private lateinit var likeButton: ImageButton
 
 
 //    override fun onCreate(savedInstanceState: Bundle?) {
@@ -54,7 +63,6 @@ class CommunityFragment : Fragment(), RecycleAdapter.MyItemClickListener{
         //regesister the backpress to this fragment
         requireActivity().onBackPressedDispatcher.addCallback(onBackPressedCallback)
 
-
         // Inflate the layout for this fragment
         return view
     }
@@ -64,10 +72,14 @@ class CommunityFragment : Fragment(), RecycleAdapter.MyItemClickListener{
 
         recyclerView = view.findViewById(R.id.recyclerView1)
 
+
         //initializong my db and getting the values from db
         myDB.initializeTables()
         //locationListdb = myDB.getAllLocationData()
         userListdb=myDB.getAllUserData()
+
+        Log.i("main data",userListdb.toString())
+
 
 
         // create vertical layout manager
@@ -80,6 +92,30 @@ class CommunityFragment : Fragment(), RecycleAdapter.MyItemClickListener{
 
         recyclerView.adapter = myAdapter
 
+        //initialize card
+        addCard =view.findViewById(R.id.myadd_cardview)
+
+        // Find the add button by its ID
+        addButton = view.findViewById(R.id.add_button)
+        // Set up a click listener
+        addButton.setOnClickListener {
+
+            //make add_cardview visible
+            addCard.visibility = View.VISIBLE
+
+
+        }
+
+        // Find the add button by its ID
+        postButton = view.findViewById(R.id.postButton)
+        // Set up a click listener
+        postButton.setOnClickListener {
+
+            //make add_cardview gone
+            addCard.visibility = View.GONE
+
+        }
+
 
     }
     companion object {
@@ -90,4 +126,34 @@ class CommunityFragment : Fragment(), RecycleAdapter.MyItemClickListener{
     override fun onItemClickedFromAdapter(user: UserData) {
         TODO("Not yet implemented")
     }
+
+
+    override fun onStart() {
+        super.onStart()
+
+
+    }
+
+    override fun onResume() {
+        super.onResume()
+
+    }
+
+    override fun onPause() {
+        super.onPause()
+
+    }
+
+    override fun onStop() {
+        super.onStop()
+
+    }
+
+    override fun onDestroy() {
+        super.onDestroy()
+        myDB.closeDB()
+
+    }
+
+
 }

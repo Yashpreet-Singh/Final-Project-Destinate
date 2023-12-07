@@ -30,6 +30,7 @@ class DatabaseHelper(context: Context) : SQLiteOpenHelper(context, DB_NAME, null
         private val COL_PASSWORD = "password"
         private val COL_LIKED = "is_liked"
         private val COL_POST = "mypost"
+        private val COL_DESCRIPITION = "title"
 
 
         // create table LocationData
@@ -39,7 +40,7 @@ class DatabaseHelper(context: Context) : SQLiteOpenHelper(context, DB_NAME, null
 
 
         private val CREATE_TABLE_USER_TABLE = "CREATE TABLE IF NOT EXISTS UserTable ( $COL_UID INTEGER PRIMARY KEY AUTOINCREMENT, " +
-               "$COL_FIRSTNAME TEXT, $COL_LASTNAME TEXT, $COL_USERNAME TEXT, $COL_PASSWORD TEXT, $COL_POST TEXT, $COL_LIKED INTEGER )"
+               "$COL_FIRSTNAME TEXT, $COL_LASTNAME TEXT, $COL_USERNAME TEXT, $COL_PASSWORD TEXT, $COL_POST TEXT, $COL_LIKED BOOLEAN ,$COL_DESCRIPITION TEXT )"
 
 
         private val DROP_TABLE_LOCATION = "DROP TABLE IF EXISTS LocationTable"
@@ -131,6 +132,7 @@ class DatabaseHelper(context: Context) : SQLiteOpenHelper(context, DB_NAME, null
         values.put(COL_USERNAME, user.username)
         values.put(COL_PASSWORD, user.password)
         values.put(COL_POST, user.myposts)
+        values.put(COL_DESCRIPITION, user.title)
         values.put(COL_LIKED, 0)//not liked
 
 
@@ -272,7 +274,8 @@ class DatabaseHelper(context: Context) : SQLiteOpenHelper(context, DB_NAME, null
                 username = c.getString(with(c) { getColumnIndex(COL_USERNAME) }),
                 password = c.getString(with(c) { getColumnIndex(COL_PASSWORD) }),
                 isLiked = c.getInt(with(c) { getColumnIndex(COL_LIKED) }) == 1, //returns true or false
-                myposts = c.getString(with(c) { getColumnIndex(COL_POST) })
+                myposts = c.getString(with(c) { getColumnIndex(COL_POST) }),
+                title =  c.getString(with(c) { getColumnIndex(COL_DESCRIPITION) })
 
             )
             getUserList.add(UserInfo)
@@ -286,27 +289,20 @@ class DatabaseHelper(context: Context) : SQLiteOpenHelper(context, DB_NAME, null
 
     //update a movie -on check status
 
-//    fun updateMovie(movie: MovieData) {
-//        Log.d("Update done","done")
-//        val db = this.writableDatabase
-//
-//        val values = ContentValues()
-////        values.put(COL_MOVIE_ID, movie.id)
-////        values.put(COL_VOTE_AVG, movie.voteAverage)
-////        values.put(COL_TITLE, movie.title)
-////        values.put(COL_ORG_TITLE, movie.originalTitle)
-////        values.put(COL_ORG_LANG, movie.originalLanguage)
-////        values.put(COL_OVERVIEW, movie.overview)
-////        values.put(COL_POPULARITY, movie.popularity)
-////        values.put(COL_POSTER, movie.posterPath)
-////        values.put(COL_BACKDROP, movie.backdropPath)
-////        values.put(COL_VOTE_CNT, movie.voteCount)
-////        values.put(COL_RELEASE, movie.releaseDate)
-//        values.put(COL_CHECKED, if (movie.checked == true) 1 else 0)
-//
-//        db.update("MoviesTable", values, "$COL_ID = ?", arrayOf(movie.dbid.toString()))
-//        db.close()
-//    }
+    fun updateLikedUser(user: UserData) {
+        Log.d("Update done","done")
+        val db = this.writableDatabase
+
+        val values = ContentValues()
+
+        Log.i("on database",user.toString())
+
+        values.put(COL_LIKED, if (user.isLiked == true) 1 else 0)
+
+        db.update("UserTable", values, "$COL_UID = ?", arrayOf(user.dbuid.toString()))
+
+        db.close()
+    }
 
 
 

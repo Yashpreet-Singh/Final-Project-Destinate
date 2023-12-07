@@ -45,6 +45,7 @@ val locationData = """
                     "lastname": "Singh",
                     "username" : "ypsingh200@gmail.com",
                     "passsword": "xyz",
+                    "title"    : "I didn't enjoy the place",
                     "myposts" : "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQWdB260xE2AnVBPMWp-xgwU1lu4qhM7VHV0l8paSGp3hkOjUUml52P7Ewg7gKkyPz4Ah4&usqp=CAU"
                 },
                 {
@@ -52,6 +53,7 @@ val locationData = """
                     "lastname": "Singh",
                     "username" : "ypsingh200@gmail.com",
                     "passsword": "xyz",
+                    "title"    : "I enjoyed the place",
                     "myposts" : "https://media.cntraveler.com/photos/61eae2a9fe18edcbd885cb01/1:1/w_3031,h_3031,c_limit/Seychelles_GettyImages-1169388113.jpg"
                 }
             ]
@@ -98,6 +100,7 @@ data class UserData(
     @SerializedName("passsword") val password: String?,
     @SerializedName("myposts") val myposts: String?,
     @SerializedName("is_liked") var isLiked:  Boolean?,
+    @SerializedName("title") var title:  String?,
     @SerializedName("db_uid") var dbuid: Int = -1, // db primary key
 ) : Serializable
 
