@@ -1,36 +1,29 @@
 package com.example.finalprojectdestinate
 
 import android.annotation.SuppressLint
-import android.content.Context
 import android.content.pm.PackageManager
+import android.location.Address
+import android.location.Geocoder
 import android.location.Location
-import android.location.LocationManager
 import android.os.Bundle
 import android.util.Log
-import android.view.InputDevice
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
-import android.view.MotionEvent
 import android.view.View
 import android.view.ViewGroup
-import android.widget.ImageView
-import android.widget.ScrollView
 import android.widget.Toast
-import androidx.core.content.ContextCompat
-import androidx.core.content.ContextCompat.getSystemService
-
-import androidx.core.widget.NestedScrollView
-import androidx.fragment.app.FragmentContainer
-import androidx.fragment.app.findFragment
+import androidx.fragment.app.Fragment
 import com.google.android.gms.location.FusedLocationProviderClient
 import com.google.android.gms.location.LocationServices
 import com.google.android.gms.maps.CameraUpdateFactory
 import com.google.android.gms.maps.GoogleMap
-import com.google.android.gms.maps.MapFragment
 import com.google.android.gms.maps.OnMapReadyCallback
 import com.google.android.gms.maps.SupportMapFragment
 import com.google.android.gms.maps.model.LatLng
+import com.google.android.gms.maps.model.LatLngBounds
 import com.google.android.gms.maps.model.MarkerOptions
+import com.google.android.gms.maps.model.PolylineOptions
+import java.util.Locale
+
 
 // TODO: Rename parameter arguments, choose names that match
 // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
@@ -53,13 +46,12 @@ class GuideFragment : Fragment(), OnMapReadyCallback {
     private val PERMISSIONS_REQUEST_ACCESS_FINE_LOCATION = 2002
     private lateinit var fusedLocationProviderClient : FusedLocationProviderClient
     private lateinit var currentLocation :Location
+    private lateinit var searchboxValue :String
+    private lateinit var city :String
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        arguments?.let {
-            param1 = it.getString(ARG_PARAM1)
-            param2 = it.getString(ARG_PARAM2)
-        }
+
     }
 
 
@@ -73,7 +65,15 @@ class GuideFragment : Fragment(), OnMapReadyCallback {
         val view = inflater.inflate(R.layout.fragment_guide, container, false)
 
         fusedLocationProviderClient  = LocationServices.getFusedLocationProviderClient(requireContext())
-        getUserLocation()
+        getUserLocation() // get location on view created
+
+        //get search results on view created
+        val activity: MainActivity? = activity as MainActivity?
+        searchboxValue = activity?.getSearchValue().toString()
+        Log.d("itemfrommain", searchboxValue)
+
+
+
 
 //        val locationManager: LocationManager = requireContext().getSystemService(Context.LOCATION_SERVICE) as LocationManager
 //        if (requireContext().checkSelfPermission(android.Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED
@@ -142,53 +142,63 @@ class GuideFragment : Fragment(), OnMapReadyCallback {
 //
 
 
-
         return view
 
     }
 
-    companion object {
-        /**
-         * Use this factory method to create a new instance of
-         * this fragment using the provided parameters.
-         *
-         * @param param1 Parameter 1.
-         * @param param2 Parameter 2.
-         * @return A new instance of fragment GuideFragment.
-         */
-        // TODO: Rename and change types and number of parameters
-        @JvmStatic
-        fun newInstance(param1: String, param2: String) =
-            GuideFragment().apply {
-                arguments = Bundle().apply {
-                    putString(ARG_PARAM1, param1)
-                    putString(ARG_PARAM2, param2)
-                }
-            }
 
-
-    }
 
     override fun onMapReady(googleMap: GoogleMap) {
         //myGoogleMap =googleMap
-        val SYR = LatLng(currentLocation.latitude, currentLocation.longitude)
-        Log.i("lockk",currentLocation.toString())
 
-        Log.d("loc",(currentLocation.latitude).toString())
+        val currentpos = LatLng(currentLocation.latitude, currentLocation.longitude)
+        val searchLatLng = LatLng(getLatLong(searchboxValue)[0],getLatLong(searchboxValue)[1])
+
+
+        Log.i("lockk",currentLocation.toString())
+        Log.d("loc", getAddress(currentLocation))
+        Log.d("loc", getLatLong("Syracuse").toString())
+
+        //add at current location
         googleMap.addMarker(
             MarkerOptions()
-                .position(SYR)
-                .title("Syracuse, NY")
+                .position(currentpos)
+                .title(getAddress(currentLocation))
         )
+
+
+        //aad marker at the search value
+        googleMap.addMarker(
+            MarkerOptions()
+                .position(searchLatLng)
+                .title(searchboxValue)
+        )
+//
+        googleMap.addPolyline(
+            PolylineOptions()
+                .add(currentpos)
+                .add(searchLatLng)
+
+        )
+
 //        val markerOptions = MarkerOptions()
 //        markerOptions.position(SYR)
 //        markerOptions.title("Syracuse, NY")
 //        markerOptions.snippet("Center of the Universe")
 //        googleMap.addMarker(markerOptions)
 
-        googleMap.moveCamera(CameraUpdateFactory.newLatLng(SYR))
-        googleMap.animateCamera(CameraUpdateFactory.newLatLngZoom(SYR, 8f))
+        //googleMap.moveCamera(CameraUpdateFactory.newLatLng(pos))
+        //googleMap.animateCamera(CameraUpdateFactory.newLatLngZoom(pos, 8f))
         //googleMap.animateCamera(CameraUpdateFactory.zoomTo(8f))
+        val builder = LatLngBounds.Builder()
+        builder.include(currentpos)
+        builder.include(searchLatLng)
+        val bounds = builder.build()
+        val padding = 0 // padding around start and end marker
+        val cu = CameraUpdateFactory.newLatLngBounds(bounds, padding)
+        googleMap.animateCamera(cu)
+        googleMap.uiSettings.isZoomControlsEnabled= true
+        googleMap.uiSettings.isCompassEnabled=true
 
 
 
@@ -219,6 +229,11 @@ class GuideFragment : Fragment(), OnMapReadyCallback {
                     Log.i("lockk here ",currentLocation.toString())
                     val mapFragment : SupportMapFragment? = childFragmentManager.findFragmentById(R.id.map) as SupportMapFragment?
                     mapFragment?.getMapAsync(this)
+
+                    //send currentlocation to main activity
+                    Log.d("sent to main", getAddress(currentLocation))
+                    val activity: MainActivity? = activity as MainActivity?
+                    activity?.setCurrentLocation(getAddress(currentLocation))
                 }
                 else {
                     Log.d("loc", "Current location not available")
@@ -249,6 +264,50 @@ class GuideFragment : Fragment(), OnMapReadyCallback {
             }
         }
     }
+
+    private fun getAddress(location: Location) : String{
+        val geocoder = Geocoder(requireContext(), Locale.getDefault())
+        val address: Address?
+
+        val addresses: List<Address>? =
+            geocoder.getFromLocation(location.latitude, location.longitude, 1)
+
+        if (addresses != null) {
+            if (addresses.isNotEmpty()) {
+                address = addresses[0]
+                //fulladdress = address.getAddressLine(0) // If any additional address line present than only, check with max available address lines by getMaxAddressLineIndex
+                city = address.locality;
+                //var state = address.adminArea;
+//                var country = address.countryName;
+//                var postalCode = address.postalCode;
+//                var knownName = address.featureName; // Only if available else return NULL
+            }
+        }
+        return city
+    }
+
+    fun getLatLong(name: String): ArrayList<Double>{
+
+        // Create a Geocoder instance
+        val geocoder = context?.let { Geocoder(it) }
+
+        // Get the list of addresses for the specified location name
+        val addresses = geocoder?.getFromLocationName(name, 1)
+
+        // If the address list is not empty, get the latitude and longitude
+        if (addresses != null) {
+            if (addresses.isNotEmpty()) {
+                myLat = addresses[0].latitude
+                myLng = addresses[0].longitude
+
+            }
+        }
+        return arrayListOf(myLat,myLng)
+    }
+
+
+
+
 
 
 }

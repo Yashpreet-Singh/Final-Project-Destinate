@@ -6,116 +6,124 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     tools:context=".ExploreFragment">
 
+
+
     <androidx.cardview.widget.CardView
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="match_parent"
         android:layout_marginTop="10dp"
-        android:layout_marginEnd="20dp"
-        android:layout_marginStart="20dp"
+        android:layout_marginEnd="10dp"
+        android:layout_marginStart="10dp"
+        android:layout_marginBottom="10dp"
         android:id="@+id/explor_cardview"
         app:cardCornerRadius="30dp"
         app:cardElevation="20dp">
 
-        <LinearLayout
+        <ScrollView
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="vertical"
-            android:layout_gravity="center_horizontal"
-            android:padding="20dp">
+            android:layout_height="match_parent">
 
-
-            <TextView
-                android:id="@+id/search_country"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Country name"
-                style="@style/Heading1"
-                />
-
-            <TextView
-                android:id="@+id/overview_title"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="@string/overviewtitle"
-                style="@style/Heading"
-                />
-
-            <TextView
-                android:id="@+id/overview_content"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="TextView"
-                android:layout_marginTop="5dp"
-                style="@style/NormalText"
-               />
-
-            <TextView
-                android:id="@+id/tourism_title"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="@string/tourismtitle"
-                android:layout_marginTop="5dp"
-                style="@style/Heading"
-                />
-
-            <HorizontalScrollView
+            <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:layout_gravity="center_horizontal"
+                android:padding="20dp">
 
-                android:id="@+id/horizontal_scroll"
-                android:fillViewport="true">
 
-                <LinearLayout
+                <TextView
+                    android:id="@+id/search_country"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Country name"
+                    style="@style/Heading1"
+                    />
+
+                <TextView
+                    android:id="@+id/overview_title"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/overviewtitle"
+                    style="@style/Heading"
+                    />
+
+                <TextView
+                    android:id="@+id/overview_content"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="TextView"
+                    android:layout_marginTop="5dp"
+                    style="@style/NormalText"
+                   />
+
+                <TextView
+                    android:id="@+id/tourism_title"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/tourismtitle"
+                    android:layout_marginTop="5dp"
+                    style="@style/Heading"
+                    />
+
+                <HorizontalScrollView
                     android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:id="@+id/grid_vid"
-                    android:orientation="horizontal">
+                    android:layout_height="wrap_content"
 
-                    <WebView
-                        android:layout_width="250dp"
-                        android:layout_height="200dp"
-                        android:layout_margin="5dp"
+                    android:id="@+id/horizontal_scroll"
+                    android:fillViewport="true">
 
-                        android:id ="@+id/youtube_vid1">
-                    </WebView>
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:id="@+id/grid_vid"
+                        android:orientation="horizontal">
 
-                    <WebView
-                        android:id="@+id/youtube_vid2"
-                        android:layout_width="250dp"
-                        android:layout_height="200dp"
+                        <WebView
+                            android:layout_width="250dp"
+                            android:layout_height="200dp"
+                            android:layout_margin="5dp"
 
-                        android:layout_margin="5dp">
-                    </WebView>
+                            android:id ="@+id/youtube_vid1">
+                        </WebView>
 
-                    <WebView
-                        android:layout_width="250dp"
-                        android:layout_height="200dp"
-                        android:layout_margin="5dp"
-                        android:id ="@+id/youtube_vid3">
-                    </WebView>
+                        <WebView
+                            android:id="@+id/youtube_vid2"
+                            android:layout_width="250dp"
+                            android:layout_height="200dp"
 
-                    <WebView
-                        android:layout_width="250dp"
-                        android:layout_height="200dp"
-                        android:layout_margin="5dp"
-                        android:id ="@+id/youtube_vid4">
-                    </WebView>
+                            android:layout_margin="5dp">
+                        </WebView>
+
+                        <WebView
+                            android:layout_width="250dp"
+                            android:layout_height="200dp"
+                            android:layout_margin="5dp"
+                            android:id ="@+id/youtube_vid3">
+                        </WebView>
+
+                        <WebView
+                            android:layout_width="250dp"
+                            android:layout_height="200dp"
+                            android:layout_margin="5dp"
+                            android:id ="@+id/youtube_vid4">
+                        </WebView>
 
 
 
-                </LinearLayout>
+                    </LinearLayout>
 
-            </HorizontalScrollView>
+                </HorizontalScrollView>
 
-            <TextView
-                android:id="@+id/activities_title"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="@string/thingstodo"
+                <TextView
+                    android:id="@+id/activities_title"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/thingstodo"
 
-                style="@style/Heading"/>
+                    style="@style/Heading"/>
 
-        </LinearLayout>
+            </LinearLayout>
+        </ScrollView>
     </androidx.cardview.widget.CardView>
 
 

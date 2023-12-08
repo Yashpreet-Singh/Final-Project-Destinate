@@ -1,6 +1,7 @@
 package com.example.finalprojectdestinate
 
 import android.os.Bundle
+import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
@@ -8,6 +9,10 @@ import android.view.ViewGroup
 import android.webkit.WebChromeClient
 import android.webkit.WebView
 import android.webkit.WebViewClient
+import android.widget.TextView
+import android.widget.Toast
+import androidx.fragment.app.FragmentActivity
+import androidx.fragment.app.FragmentManager
 
 // TODO: Rename parameter arguments, choose names that match
 // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
@@ -24,8 +29,23 @@ class ExploreFragment : Fragment() {
     private var param1: String? = null
     private var param2: String? = null
 
+    private var userAgentData :String ="Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/119.0.0.0 Safari/537.36"
+
     private lateinit var youtubeframe1 : WebView
     private lateinit var youtubeframe2 : WebView
+    private lateinit var youtubeframe3 : WebView
+    private lateinit var youtubeframe4 : WebView
+
+    private lateinit var searchCountry : TextView
+    private lateinit var content : TextView
+
+    private lateinit var mysearchValue :String
+    private lateinit var searchboxValue :String
+    private  var currentLocation : String? = null
+
+    lateinit var locationListdb: ArrayList<TripData>
+    private val myDB: DatabaseHelper by lazy { DatabaseHelper(requireContext()) }
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         arguments?.let {
@@ -42,50 +62,97 @@ class ExploreFragment : Fragment() {
     ): View? {
         // Inflate the layout for this fragment
 
-        return inflater.inflate(R.layout.fragment_explore, container, false)
+        val view = inflater.inflate(R.layout.fragment_explore, container, false)
+
+
+        //get cuurent user from mainactivity
+//        val fragment: PlanFragment? = requireParentFragment() as PlanFragment?
+//        val currentUser = fragment?.giveuserData()
+//
+//        Log.d("item ine xl=plore", currentUser.toString())
+
+        val activity: MainActivity? = activity as MainActivity?
+        searchboxValue = activity?.getSearchValue().toString()
+        Log.d("itemfrommain", searchboxValue)
+
+        mysearchValue = searchboxValue
+
+
+        return view
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        val userAgentData ="Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/119.0.0.0 Safari/537.36"
-
-        youtubeframe1 =view.findViewById(R.id.youtube_vid1)
-        val video1 = "<iframe width=\"100%\" height=\"100%\" src=\"https://www.youtube.com/embed/V2KCAfHjySQ?si=NPdGFAQsSF4pLR6x\" title=\"YouTube video player\" frameborder=\"0\" allow=\"accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share\" allowfullscreen></iframe>"
-        youtubeframe1.loadData(video1,"text/html","uft-8")
-        youtubeframe1.settings.javaScriptEnabled = true
-        youtubeframe1.webChromeClient= WebChromeClient()
-        youtubeframe1.webViewClient = WebViewClient()
-        youtubeframe1.settings.userAgentString = userAgentData
-
-        youtubeframe2 =view.findViewById(R.id.youtube_vid2)
-        val video2 = "<iframe width=\"100%\" height=\"100%\" src=\"https://www.youtube.com/embed/V2KCAfHjySQ?si=NPdGFAQsSF4pLR6x\" title=\"YouTube video player\" frameborder=\"0\" allow=\"accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share\" allowfullscreen></iframe>"
-        youtubeframe2.loadData(video2,"text/html","uft-8")
-        youtubeframe2.settings.javaScriptEnabled = true
-        youtubeframe2.webChromeClient= WebChromeClient()
-        youtubeframe2.webViewClient = WebViewClient()
-        youtubeframe2.settings.userAgentString = userAgentData
 
 
-    }
+        //initializong my db and getting the values from db
+        //myDB.initializeTables()
+        locationListdb = myDB.getAllLocationData()
 
-    companion object {
-        /**
-         * Use this factory method to create a new instance of
-         * this fragment using the provided parameters.
-         *
-         * @param param1 Parameter 1.
-         * @param param2 Parameter 2.
-         * @return A new instance of fragment ExploreFragment.
-         */
-        // TODO: Rename and change types and number of parameters
-        @JvmStatic
-        fun newInstance(param1: String, param2: String) =
-            ExploreFragment().apply {
-                arguments = Bundle().apply {
-                    putString(ARG_PARAM1, param1)
-                    putString(ARG_PARAM2, param2)
-                }
+        searchCountry =view.findViewById(R.id.search_country)
+        content = view.findViewById(R.id.overview_content)
+        //view.findViewById<TextView>(R.id.search_country)
+        //view.findViewById<TextView>(R.id.search_country)
+
+        if (!checkLocationInDB(view)){
+            Toast.makeText(requireContext(), "Place not in database..setting to current location", Toast.LENGTH_LONG).show()
+            //get current location from mainactivity where mainactivity gets it location from guide fragment
+
+            val activity: MainActivity? = activity as MainActivity?
+            currentLocation = activity?.getCurrentLocation() //will get name
+
+
+            //Log.d("cuurent in explore", currentLocation!!)
+
+            //set search value to current location only in Explore Fragemnt
+            if(currentLocation != null) {
+                mysearchValue = currentLocation as String
+                checkLocationInDB(view)
             }
+            else{
+                Toast.makeText(requireContext(), "No current location...setting to Default", Toast.LENGTH_LONG).show()
+                mysearchValue = "Syracuse"
+                checkLocationInDB(view)
+            }
+
+        }
+
+
     }
+
+    private fun checkLocationInDB(view:View):Boolean {
+
+        for (place in locationListdb) {
+            if (place.location.equals(mysearchValue, ignoreCase = true)) {
+
+
+                //initialize data
+                searchCountry.text = place.location
+                content.text = place.overview
+
+                youtubeframe1 = view.findViewById(R.id.youtube_vid1)
+                val video1 = place.tourismVid!![0]
+                youtubeframe1.loadData(video1, "text/html", "uft-8")
+                youtubeframe1.settings.javaScriptEnabled = true
+                youtubeframe1.webChromeClient = WebChromeClient()
+                youtubeframe1.webViewClient = WebViewClient()
+                youtubeframe1.settings.userAgentString = userAgentData
+
+                youtubeframe2 = view.findViewById(R.id.youtube_vid2)
+                val video2 = place.tourismVid[1]
+                youtubeframe2.loadData(video2, "text/html", "uft-8")
+                youtubeframe2.settings.javaScriptEnabled = true
+                youtubeframe2.webChromeClient = WebChromeClient()
+                youtubeframe2.webViewClient = WebViewClient()
+                youtubeframe2.settings.userAgentString = userAgentData
+
+                return true
+            }
+        }
+
+        return false
+    }
+
+
 }

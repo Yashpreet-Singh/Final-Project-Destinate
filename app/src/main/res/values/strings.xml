@@ -10,4 +10,5 @@
     <string name= "overviewtitle"> Overview </string>
     <string name= "tourismtitle"> Toursim </string>
     <string name= "thingstodo"> Things To Do </string>
+    <string name="system">System</string>
 </resources>

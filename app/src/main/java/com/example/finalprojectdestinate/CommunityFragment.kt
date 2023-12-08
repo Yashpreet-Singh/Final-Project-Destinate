@@ -4,6 +4,8 @@ import android.os.Bundle
 import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
+import android.view.Menu
+import android.view.MenuInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Button
@@ -39,6 +41,8 @@ class CommunityFragment : Fragment(), RecycleAdapter.MyItemClickListener{
     private lateinit var recyclerView: RecyclerView
     private lateinit var likeButton: ImageButton
 
+    private lateinit var currentUser: String
+
 
 //    override fun onCreate(savedInstanceState: Bundle?) {
 //        super.onCreate(savedInstanceState)
@@ -63,6 +67,12 @@ class CommunityFragment : Fragment(), RecycleAdapter.MyItemClickListener{
         //regesister the backpress to this fragment
         requireActivity().onBackPressedDispatcher.addCallback(onBackPressedCallback)
 
+
+        //get cuurent user from mainactivity
+        val activity: MainActivity? = activity as MainActivity?
+        currentUser = activity?.getCurrentUser().toString()
+
+
         // Inflate the layout for this fragment
         return view
     }
@@ -74,7 +84,7 @@ class CommunityFragment : Fragment(), RecycleAdapter.MyItemClickListener{
 
 
         //initializong my db and getting the values from db
-        myDB.initializeTables()
+        //myDB.initializeTables()
         //locationListdb = myDB.getAllLocationData()
         userListdb=myDB.getAllUserData()
 
@@ -154,6 +164,8 @@ class CommunityFragment : Fragment(), RecycleAdapter.MyItemClickListener{
         myDB.closeDB()
 
     }
+
+
 
 
 }

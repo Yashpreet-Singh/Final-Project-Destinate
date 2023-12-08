@@ -12,5 +12,16 @@
             android:title="Support" />
 
     </group>
+    <item android:title="@string/system">
+        <menu>
+            <item
+                android:id="@+id/logout"
+                android:icon="@drawable/baseline_all_out_24"
+                android:title="Logout"/>
+        </menu>
+
+
+
+    </item>
 
 </menu>

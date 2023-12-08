@@ -17,29 +17,44 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.FinalProjectDestinate"
         tools:targetApi="31">
-        <activity
-            android:name=".Create_Login_Activity"
-            android:exported="false" />
-        <activity
-            android:name=".Login_Page"
-            android:exported="false" />
 
         <meta-data
             android:name="com.google.android.geo.API_KEY"
-            android:value="@string/yashmaps_api" />
+            android:value="@string/yashmaps_api"/>
 
         <uses-library
             android:name="org.apache.http.legacy"
             android:required="false" />
 
+
         <activity
-            android:name=".MainActivity"
+            android:name=".LoginActivity"
             android:exported="true">
+
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
-
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
+
+        </activity>
+
+        <activity
+            android:name=".CreateAccountActivity"
+            android:parentActivityName="com.example.finalprojectdestinate.LoginActivity">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="com.example.finalprojectdestinate.LoginActivity" />
+
+        </activity>
+
+
+        <activity
+            android:name=".MainActivity"
+            android:parentActivityName="com.example.finalprojectdestinate.LoginActivity">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="com.example.finalprojectdestinate.LoginActivity" />
+
         </activity>
     </application>
 

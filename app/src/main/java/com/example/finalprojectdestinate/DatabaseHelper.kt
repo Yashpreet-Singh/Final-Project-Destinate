@@ -305,6 +305,33 @@ class DatabaseHelper(context: Context) : SQLiteOpenHelper(context, DB_NAME, null
     }
 
 
+    fun addNewUser(email: String, password: String, firstname :String,lastname:String){
+
+        val db =this.writableDatabase
+
+        //add using to usertable
+        val values = ContentValues()
+        values.put(COL_FIRSTNAME, firstname)
+        values.put(COL_LASTNAME, lastname)
+        values.put(COL_USERNAME, email)
+        values.put(COL_PASSWORD, password)
+        //values.put(COL_POST, user.myposts)
+        //values.put(COL_DESCRIPITION, user.title)
+        values.put(COL_LIKED, 0)//not liked
+
+        db.insert("UserTable", null, values)
+
+
+
+    }
+
+    fun readUser(email: String,password: String){
+
+    }
+
+
+
+
 
 
 }

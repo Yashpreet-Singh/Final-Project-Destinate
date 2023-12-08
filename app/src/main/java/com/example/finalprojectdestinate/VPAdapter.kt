@@ -11,7 +11,7 @@ class VPAdapter(fragment: Fragment) : FragmentStateAdapter(fragment) {
 
 
     override fun getItemCount(): Int {
-        return 3 //number of fragments
+        return 2 //number of fragments
     }
 
     override fun createFragment(position: Int): Fragment {
@@ -22,9 +22,6 @@ class VPAdapter(fragment: Fragment) : FragmentStateAdapter(fragment) {
 
             1-> {
                 fragmentlist[1]
-            }
-            2->{
-                fragmentlist[2]
             }
 
             else->{

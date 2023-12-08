@@ -14,7 +14,7 @@
         >
 
         <RelativeLayout
-            android:layout_height="wrap_content"
+            android:layout_height="match_parent"
             android:layout_width="match_parent"
             android:paddingTop="0dp"
             android:layout_marginBottom="?attr/actionBarSize">
@@ -29,27 +29,27 @@
 
                 />
 
-    <!--        <FrameLayout-->
-    <!--            android:id="@+id/meContainer"-->
-    <!--            android:layout_width="match_parent"-->
-    <!--            android:layout_height="wrap_content"-->
-    <!--            android:layout_marginTop="3dp"-->
-    <!--            app:layout_anchor="@id/toolbar"-->
-    <!--            app:layout_anchorGravity="bottom|start"-->
-    <!--            android:background="@color/aqua"-->
-    <!--            android:fitsSystemWindows="true" />-->
-
-            <androidx.fragment.app.FragmentContainerView
-                android:id="@+id/fragmentContainerView"
-
-                android:name="androidx.navigation.fragment.NavHostFragment"
+            <FrameLayout
+                android:id="@+id/meContainer"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="2dp"
+                android:layout_height="match_parent"
+                android:layout_marginTop="3dp"
+
+                android:background="@color/aqua"
                 android:layout_below="@id/toolbar"
-                app:defaultNavHost="true"
-                app:navGraph="@navigation/navigation"
-                android:fitsSystemWindows="true"/>
+                android:fitsSystemWindows="true" />
+
+<!--            <androidx.fragment.app.FragmentContainerView-->
+<!--                android:id="@+id/fragmentContainerView"-->
+
+<!--                android:name="androidx.navigation.fragment.NavHostFragment"-->
+<!--                android:layout_width="match_parent"-->
+<!--                android:layout_height="wrap_content"-->
+<!--                android:layout_marginTop="2dp"-->
+<!--                android:layout_below="@id/toolbar"-->
+<!--                app:defaultNavHost="true"-->
+<!--                app:navGraph="@navigation/navigation"-->
+<!--                android:fitsSystemWindows="true"/>-->
         </RelativeLayout>
 
         <com.google.android.material.bottomnavigation.BottomNavigationView

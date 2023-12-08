@@ -1,21 +1,23 @@
 package com.example.finalprojectdestinate
 
 import android.content.Intent
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.text.InputType
 import android.util.Log
 import android.view.Menu
 import android.view.MenuItem
-import android.widget.Toast
+import android.view.View
+import android.widget.TextView
 import androidx.activity.OnBackPressedCallback
 import androidx.appcompat.app.ActionBarDrawerToggle
+import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.SearchView
 import androidx.appcompat.widget.Toolbar
 import androidx.core.view.GravityCompat
 import androidx.drawerlayout.widget.DrawerLayout
 import androidx.navigation.NavController
 import androidx.navigation.fragment.NavHostFragment
+import androidx.navigation.fragment.NavHostFragment.Companion.findNavController
 import androidx.navigation.ui.NavigationUI.setupWithNavController
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.google.android.material.navigation.NavigationView
@@ -24,9 +26,24 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
 
     lateinit var drawerlayout: DrawerLayout
     private lateinit var  navController : NavController
+    private lateinit var currentUser : String
+    private lateinit var currentUserFirstname : String
+    private lateinit var currentUserLastName : String
+    lateinit var userListCreatedb: ArrayList<UserData>
+    private val myDB: DatabaseHelper by lazy { DatabaseHelper(this) }
+
+    private var searchvalue : String = "Syracuse" //default value
+
+    private var data: String? = null
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
+
+        //getting data from intent login
+        currentUser = intent.getStringExtra("Current_User_Name").toString() //email
+        //getting user list
+        userListCreatedb=myDB.getAllUserData()
 
         //supportActionBar?.setDisplayHomeAsUpEnabled(true)//activating toolbar
         val toolbar = findViewById<Toolbar>(R.id.toolbar)
@@ -42,6 +59,24 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
 
         val navigationView = findViewById<NavigationView>(R.id.nav_view)
         navigationView.setNavigationItemSelectedListener(this)
+
+        val headerview: View = navigationView.getHeaderView(0)
+        val defaultuser: TextView = headerview.findViewById(R.id.navi_name)
+        val defaultemail: TextView = headerview.findViewById(R.id.navi_email)
+
+        for ( user in userListCreatedb){
+            if(user.username == currentUser){
+                currentUserFirstname = user.firstname.toString()
+                currentUserLastName = user.lastname.toString()
+            }
+        }
+
+        defaultuser.text = currentUserFirstname + " "+ currentUserLastName
+        defaultemail.text= currentUser
+
+
+
+
 
         //when you press backbutton while drawer is open
         val onBackPressedCallback =object: OnBackPressedCallback(true) {
@@ -65,63 +100,74 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
         val bottomnav = findViewById<BottomNavigationView>(R.id.bottom_nav)
 
         //setup navigation between fragments using nagvigation.xml (Navigation Component)
-        val navHostFragment = supportFragmentManager.findFragmentById(R.id.fragmentContainerView) as NavHostFragment
-        navController = navHostFragment.navController
-        setupWithNavController(bottomnav, navController) // menuitem in bottom_menu and their respective fragment must have same id
+//        val navHostFragment = supportFragmentManager.findFragmentById(R.id.fragmentContainerView) as NavHostFragment
+//        navController = navHostFragment.navController
+//        setupWithNavController(bottomnav, navController) // menuitem in bottom_menu and their respective fragment must have same id
+
+//        val bundle =Bundle()
+//        bundle.putString("Search item","pan")
+//        // val args= bundleOf("amount" to searchvalue)
+//        //navController.setGraph(R.navigation.navigation,bundle)
+//
+//        val planfrag =PlanFragment()
+//        planfrag.arguments =bundle
 
 
 
-//        bottomnav.selectedItemId = R.id.plan_action
-//
-//        //deafult fargment display
-//        val plan = PlanFragment.newInstance(1.toString(),2.toString())
-//        supportFragmentManager.beginTransaction().replace(R.id.meContainer, plan).addToBackStack("null").commit()
-//
-//        bottomnav.setOnItemSelectedListener {
-//            when (it.itemId) {
-//                R.id.plan_action -> {
-//                    val plan2 = PlanFragment.newInstance(1.toString(),2.toString())
-//                    //myToolbar.title = "Linear Layout"
-//                    supportFragmentManager.beginTransaction().replace(R.id.meContainer, plan2).addToBackStack("null").commit()
-//                }
-////                R.id.book_action -> {
-////                    val fr = LayoutFragment.newInstance(2)
-////                    myToolbar.title = "Grid Layout"
-////                    supportFragmentManager.beginTransaction().replace(R.id.lmContainer, fr).commit()
-////                }
-//                R.id.community_action -> {
-//                    val community = CommunityFragment.newInstance(1.toString(),2.toString())
-//                    //myToolbar.title = "Staggered Grid Layout"
-//                    supportFragmentManager.beginTransaction().replace(R.id.meContainer, community).addToBackStack("null").commit()
-//                }
-//
-//                else -> {}
-//            }
-//            true //tell that this item selector is registered
-//        }
-//
+
+        bottomnav.selectedItemId = R.id.planFragment
+
+        //deafult fargment display
+        val plan = PlanFragment()
+        supportFragmentManager.beginTransaction().replace(R.id.meContainer, plan).addToBackStack("null").commit()
+
+        bottomnav.setOnItemSelectedListener {
+            when (it.itemId) {
+                R.id.planFragment -> {
+                    //val plan2 = PlanFragment.newInstance(1.toString(),2.toString())
+                    //myToolbar.title = "Linear Layout"
+                    val planfragment = PlanFragment()
+//                    val bundle =Bundle()
+//                    bundle.putString("Search item",searchvalue)
+//                    planfragment.arguments =bundle
+                    supportFragmentManager.beginTransaction().replace(R.id.meContainer, planfragment).commit()
+
+
+                }
+                R.id.bookFragment -> {
+                      val bookfragment = BookFragment()
+                      //myToolbar.title = "Grid Layout"
+                      supportFragmentManager.beginTransaction().replace(R.id.meContainer, bookfragment).commit()
+                }
+                R.id.communityFragment -> {
+                      val community = CommunityFragment()
+                      //myToolbar.title = "Staggered Grid Layout"
+                      supportFragmentManager.beginTransaction().replace(R.id.meContainer, community).addToBackStack("null").commit()
+                }
+
+                  else -> {}
+              }
+              true //tell that this item selector is registered
+       }
+
 //        // Default - linear layout manager
 //        val fr = LayoutFragment.newInstance(1)
 //        myToolbar.title = "Layout Manager"
 //        supportFragmentManager.beginTransaction().replace(R.id.lmContainer, fr).commit()
 
-    }
+       }
 
     override fun onNavigationItemSelected(item: MenuItem): Boolean {
-//drawer handle items
-//        R.id.about_me ->{
-//            supportActionBar?.title ="About Me"
-//            supportFragmentManager.beginTransaction().add(R.id.meContainer, AboutMe()).addToBackStack(null).commit()
-//        }
-//        R.id.task_2 ->{
-//            val intent = Intent(this, RecycleView::class.java)
-//            startActivity(intent)
-//        }
-//        R.id.task_3 ->{
-//            val intent = Intent(this, RecycleView2::class.java)
-//            startActivity(intent)
-//        }
-//    }
+    //drawer handle items
+        when(item.itemId){
+            R.id.logout -> {
+                //back to login activity
+                val intent = Intent(this, LoginActivity::class.java)
+                startActivity(intent)
+            }
+
+        }
+
     drawerlayout.closeDrawer(GravityCompat.START)
     return true
     }
@@ -132,31 +178,65 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
         inflater.inflate(R.menu.search_menu, menu)
 
         val searchItem = menu?.findItem(R.id.action_search)
-        //val search = searchItem?.actionView as SearchView
+        val search = searchItem?.actionView as SearchView
 
-//        // Set input type
-//        search.inputType = InputType.TYPE_CLASS_TEXT
-//
-//        search.setOnQueryTextListener(object : SearchView.OnQueryTextListener {
-//            override fun onQueryTextSubmit(query: String?): Boolean {
-//                val pos = myAdapter.findFirst(query!!) // find the movie and scroll to the position--case insentivie
-//                if (pos >= 0) {
-//                    recyclerView.smoothScrollToPosition(pos)
-//                    //Toast.makeText(context, "Search Movie $query found...", Toast.LENGTH_SHORT).show()
-//                } else {
-//                    recyclerView.smoothScrollToPosition(0)//Scroll to first movie
-//                    Toast.makeText(this@RecycleView, "Search Movie $query not found...", Toast.LENGTH_SHORT).show()
-//                }
-//                return true
-//            }
-//
-//            override fun onQueryTextChange(newText: String?): Boolean {
-//                return true
-//            }
-//        })
+        // Set input type
+        search.inputType = InputType.TYPE_CLASS_TEXT
+
+        search.setOnQueryTextListener(object : SearchView.OnQueryTextListener {
+            override fun onQueryTextSubmit(query: String?): Boolean {
+
+                if (query != null) {
+                    searchvalue =query //save the search value and pass it to explore fragment
+
+//                    val navController: NavController =
+//                        findNavController()
+//                    navController.run {
+//                        popBackStack()
+//                        navigate(R.id.planFragment)
+//                    }
+
+//                    // Replace the existing PlanFragment with the new one
+                    supportFragmentManager.beginTransaction()
+                        .replace(R.id.meContainer, PlanFragment())
+                        //.detach(PlanFragment())
+                        //.attach(PlanFragment())
+                        .commit()
+
+
+
+//                    val frg = supportFragmentManager.findFragmentById(R.id.meContainer);
+//                    final FragmentTransaction ft = supportFragmentManager.beginTransaction();
+//                    ft.detach(frg);
+//                    ft.attach(frg);
+//                    ft.commit();
+                }
+                return true
+            }
+
+            override fun onQueryTextChange(newText: String?): Boolean {
+                return true
+            }
+        })
 
 
         return super.onCreateOptionsMenu(menu)
+    }
+
+    fun getCurrentUser(): String {
+        return currentUser //email
+    }
+
+    fun getSearchValue():String{
+        return searchvalue
+    }
+
+    fun setCurrentLocation(data: String?){
+        this.data = data
+    }
+
+    fun getCurrentLocation(): String? {
+        return data
     }
 
 
