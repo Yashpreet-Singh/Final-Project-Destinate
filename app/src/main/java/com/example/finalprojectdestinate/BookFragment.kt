@@ -10,12 +10,14 @@ import androidx.recyclerview.widget.RecyclerView
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.finalprojectdestinate.adapters.FlightAdapter
 import android.util.Log
+import android.widget.Button
+import android.widget.EditText
 import kotlin.math.log
 import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
+
 import okhttp3.Request
-import android.widget.EditText
-import android.widget.Button
+
 import java.io.IOException
 import org.json.JSONObject
 import org.json.JSONArray

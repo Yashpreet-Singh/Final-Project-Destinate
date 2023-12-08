@@ -10,6 +10,7 @@ import android.widget.ImageView
 import android.widget.TextView
 import com.squareup.picasso.Picasso
 
+
 class RecycleAdapter (val userInfo: ArrayList<UserData>, val context: Context, val myDB: DatabaseHelper):
     androidx.recyclerview.widget.RecyclerView.Adapter<RecycleAdapter.UserViewHolder>(){
 
@@ -94,13 +95,13 @@ class RecycleAdapter (val userInfo: ArrayList<UserData>, val context: Context, v
 
             likeButton.setOnClickListener {
                 if (myListener != null) {
-                    if (bindingAdapterPosition != androidx.recyclerview.widget.RecyclerView.NO_POSITION) {
+                    if (adapterPosition != androidx.recyclerview.widget.RecyclerView.NO_POSITION) {
 
                         //userpost.isLiked = !userpost.isLiked!!
-                        userInfo[bindingAdapterPosition].isLiked = !userInfo[bindingAdapterPosition].isLiked!!
+                        userInfo[adapterPosition].isLiked = !userInfo[adapterPosition].isLiked!!
                         // Call the listener's onItemClickedFromAdapter method
                         //myListener!!.onLikeClickedFromAdapter(it,userInfo[bindingAdapterPosition])
-                        val user = userInfo[bindingAdapterPosition]
+                        val user = userInfo[adapterPosition]
 
                         if (user.isLiked == true) {
                             context.resources?.let { likeButton.setBackgroundColor(it.getColor(R.color.blue)) }

@@ -18,7 +18,7 @@ class CreateAccountActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_create_account)
+        setContentView(R.layout.activity_create_login)
 
         // Initialize UI components
         emailEditText = findViewById(R.id.email)
