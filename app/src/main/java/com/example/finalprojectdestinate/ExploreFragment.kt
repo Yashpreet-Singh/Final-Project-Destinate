@@ -131,21 +131,37 @@ class ExploreFragment : Fragment() {
                 searchCountry.text = place.location
                 content.text = place.overview
 
+
+
                 youtubeframe1 = view.findViewById(R.id.youtube_vid1)
-                val video1 = place.tourismVid!![0]
-                youtubeframe1.loadData(video1, "text/html", "uft-8")
-                youtubeframe1.settings.javaScriptEnabled = true
-                youtubeframe1.webChromeClient = WebChromeClient()
-                youtubeframe1.webViewClient = WebViewClient()
-                youtubeframe1.settings.userAgentString = userAgentData
+                configureWebView(youtubeframe1, place.tourismVid!![0])
 
                 youtubeframe2 = view.findViewById(R.id.youtube_vid2)
-                val video2 = place.tourismVid[1]
-                youtubeframe2.loadData(video2, "text/html", "uft-8")
-                youtubeframe2.settings.javaScriptEnabled = true
-                youtubeframe2.webChromeClient = WebChromeClient()
-                youtubeframe2.webViewClient = WebViewClient()
-                youtubeframe2.settings.userAgentString = userAgentData
+                configureWebView(youtubeframe2, place.tourismVid[1])
+
+                youtubeframe3 = view.findViewById(R.id.youtube_vid3)
+                configureWebView(youtubeframe3, place.tourismVid[2])
+
+                youtubeframe4 = view.findViewById(R.id.youtube_vid4)
+                configureWebView(youtubeframe4, place.tourismVid[3])
+
+
+
+//                youtubeframe1 = view.findViewById(R.id.youtube_vid1)
+//                val video1 = place.tourismVid!![0]
+//                youtubeframe1.loadData(video1, "text/html", "uft-8")
+//                youtubeframe1.settings.javaScriptEnabled = true
+//                youtubeframe1.webChromeClient = WebChromeClient()
+//                youtubeframe1.webViewClient = WebViewClient()
+//                youtubeframe1.settings.userAgentString = userAgentData
+//
+//                youtubeframe2 = view.findViewById(R.id.youtube_vid2)
+//                val video2 = place.tourismVid[1]
+//                youtubeframe2.loadData(video2, "text/html", "uft-8")
+//                youtubeframe2.settings.javaScriptEnabled = true
+//                youtubeframe2.webChromeClient = WebChromeClient()
+//                youtubeframe2.webViewClient = WebViewClient()
+//                youtubeframe2.settings.userAgentString = userAgentData
 
                 return true
             }
@@ -153,6 +169,17 @@ class ExploreFragment : Fragment() {
 
         return false
     }
+
+    private fun configureWebView(webView: WebView, videoUrl: String) {
+        webView.loadData(videoUrl, "text/html", "utf-8")
+        webView.settings.javaScriptEnabled = true
+        webView.webChromeClient = WebChromeClient()
+        webView.webViewClient = WebViewClient()
+        webView.settings.userAgentString = userAgentData
+    }
+
+
+
 
 
 }
