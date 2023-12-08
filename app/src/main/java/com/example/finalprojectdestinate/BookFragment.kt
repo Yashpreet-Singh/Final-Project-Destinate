@@ -8,20 +8,22 @@ import android.view.ViewGroup
 import kotlinx.coroutines.*
 import androidx.recyclerview.widget.RecyclerView
 import androidx.recyclerview.widget.LinearLayoutManager
-import com.example.finalprojectdestinate.FlightApiService
-import com.example.finalprojectdestinate.api.RetrofitClient
 import com.example.finalprojectdestinate.adapters.FlightAdapter
 import android.util.Log
 import kotlin.math.log
 import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
 import okhttp3.Request
+import android.widget.EditText
+import android.widget.Button
+import java.io.IOException
+import org.json.JSONObject
+import org.json.JSONArray
+import com.example.finalprojectdestinate.model.Flight
 
 class BookFragment : Fragment() {
-    private val flightApiService by lazy {
-        RetrofitClient.retrofitInstance.create(FlightApiService::class.java)
-    }
-
+    private lateinit var rvFlights: RecyclerView
+    private var listOfFlights = mutableListOf<Flight>()
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -48,11 +50,51 @@ class BookFragment : Fragment() {
                 // Show error or alert to fill all fields
             }
         }
-        val rvFlights = view.findViewById<RecyclerView>(R.id.rvFlights)
+        val listOfFlights = mutableListOf<Flight>()
+
+        rvFlights = view.findViewById<RecyclerView>(R.id.rvFlights)
         rvFlights.layoutManager = LinearLayoutManager(context)
-        rvFlights.adapter = FlightAdapter(emptyList())
+        rvFlights.adapter = FlightAdapter(listOfFlights)
     }
+    private fun readIataCodesJson(): String {
+        return try {
+            val inputStream = requireContext().assets.open("IATA_Codes_CityNames.json")
+            inputStream.bufferedReader().use { it.readText() }
+        } catch (e: IOException) {
+            Log.e("BookFragment", "Error reading IATA codes: ${e.message}", e)
+            ""
+        }
+    }
+    private fun getIataCode(cityName: String): String {
+        val json = readIataCodesJson()
+        val jsonObject = JSONObject(json)
+        val trimmedCityName = cityName.trim()
+
+        val keys = jsonObject.keys()
+        while (keys.hasNext()) {
+            val key = keys.next()
+            if (key.equals(trimmedCityName, ignoreCase = true)) {
+                return jsonObject.getString(key)
+            }
+        }
+
+        Log.d("BookFragment", "City name key not found: $trimmedCityName")
+        return ""
+    }
+
+
+
     private fun fetchFlights(fromLocation: String, toLocation: String, date: String) {
+        val fromIataCode = getIataCode(fromLocation)
+        val toIataCode = getIataCode(toLocation)
+
+        Log.d("BookFragment", "From City: $fromLocation, IATA: $fromIataCode")
+        Log.d("BookFragment", "To City: $toLocation, IATA: $toIataCode")
+
+        if (fromIataCode.isBlank() || toIataCode.isBlank()) {
+            Log.e("BookFragment", "IATA code not found for one or both cities")
+            return
+        }
         CoroutineScope(Dispatchers.IO).launch {
             try {
                 val formattedDate = date.replace("-", "")
@@ -69,8 +111,14 @@ class BookFragment : Fragment() {
                 val response = client.newCall(request).execute()
 
                 if (response.isSuccessful) {
-                    val responseBody = response.body?.string()
+                    val responseBody = response.body?.string() ?: ""
                     Log.d("BookFragment", "Flight details: $responseBody")
+                    val flights = parseFlightResponse(responseBody)
+
+                    CoroutineScope(Dispatchers.Main).launch {
+                        listOfFlights.clear()
+                        listOfFlights.addAll(flights)
+                        rvFlights.adapter?.notifyDataSetChanged()                     }
                 } else {
                     Log.e("BookFragment", "Error fetching flight details")
                 }
@@ -78,6 +126,23 @@ class BookFragment : Fragment() {
                 Log.e("BookFragment", "Error fetching flight details: ${e.message}", e)
             }
         }
+    }
+    private fun parseFlightResponse(jsonString: String): MutableList<Flight> {
+        val flightList = mutableListOf<Flight>()
+        val jsonArray = JSONArray(jsonString)
+
+        for (i in 0 until jsonArray.length()) {
+            val jsonObject = jsonArray.getJSONObject(i)
+            val flight = Flight(
+                companyShortName = jsonObject.getString("companyShortName"),
+                departureName = jsonObject.getString("departureName"),
+                arrivalCode = jsonObject.getString("arrivalCode"),
+                departureDateTime = jsonObject.getString("departureDateTime"),
+                arrivalDateTime = jsonObject.getString("arrivalDateTime")
+            )
+            flightList.add(flight)
+        }
+        return flightList
     }
 
     companion object {

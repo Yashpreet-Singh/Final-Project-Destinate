@@ -6,9 +6,9 @@ import android.view.ViewGroup
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.example.finalprojectdestinate.R
-import com.example.finalprojectdestinate.FlightLegDetails  // Import FlightLegDetails
+import com.example.finalprojectdestinate.model.Flight
 
-class FlightAdapter(private val flights: List<FlightLegDetails>) : RecyclerView.Adapter<FlightAdapter.FlightViewHolder>() {
+class FlightAdapter(private var flights: MutableList<Flight>) : RecyclerView.Adapter<FlightAdapter.FlightViewHolder>() {
 
     class FlightViewHolder(view: View) : RecyclerView.ViewHolder(view) {
         val tvCompanyShortName: TextView = view.findViewById(R.id.tvCompanyShortName)
@@ -29,12 +29,17 @@ class FlightAdapter(private val flights: List<FlightLegDetails>) : RecyclerView.
         val flightDetail = flights[position]
 
         holder.tvCompanyShortName.text = flightDetail.companyShortName
-        holder.tvDepartureName.text = flightDetail.flsDepartureName
-        holder.tvArrivalCode.text = flightDetail.flsArrivalCode
-        holder.tvDepartureDateTime.text = flightDetail.flsDepartureDateTime
-        holder.tvArrivalDateTime.text = flightDetail.flsArrivalDateTime
-        // ... other data bindings as needed ...
+        holder.tvDepartureName.text = flightDetail.departureName
+        holder.tvArrivalCode.text = flightDetail.arrivalCode
+        holder.tvDepartureDateTime.text = flightDetail.departureDateTime
+        holder.tvArrivalDateTime.text = flightDetail.arrivalDateTime
     }
 
     override fun getItemCount() = flights.size
+
+    fun updateFlights(newFlights: List<Flight>) {
+        flights.clear()
+        flights.addAll(newFlights)
+        notifyDataSetChanged()
+    }
 }
