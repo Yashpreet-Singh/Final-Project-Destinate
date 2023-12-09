@@ -1,49 +1,44 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:gravity="center_horizontal"
+    android:gravity="bottom"
     android:orientation="vertical"
-    android:background="@color/navbackgroundColor"
-    android:paddingTop="20dp"
-    android:paddingBottom="20dp"
-    android:paddingLeft="20dp"
-    android:paddingRight="20dp"
-    android:fitsSystemWindows="true"
+    android:background="@drawable/ic_launcher_background"
+
+    android:padding="20dp"
     android:theme="@style/ThemeOverlay.AppCompat.Dark">
 
     <com.mikhaellopez.circularimageview.CircularImageView
         android:layout_width="100dp"
         android:layout_height="100dp"
-        android:layout_marginTop="20dp"
-        android:layout_gravity="center_horizontal"
+        android:layout_gravity="start"
+        android:id="@+id/navi_user_image"
         android:src="@drawable/ic_launcher_foreground"
-        app:civ_border_color="#FFFFFF"
+        app:civ_border_color="#EEEEEE"
         app:civ_border_width="2dp"
         app:civ_shadow="true"
         app:civ_shadow_color="#8BC34A"
-        app:civ_shadow_radius="2" />
+        app:civ_shadow_radius="5" />
 
     <TextView
-        android:id="@+id/navi_name"
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="16dp"
-        android:layout_gravity="center_horizontal"
+        android:paddingTop="16dp"
+        android:id="@+id/navi_name"
         android:text="Yashpreet Singh"
-        android:textColor="@color/navtextPrimaryColor"
+
         android:textAppearance="@style/TextAppearance.AppCompat.Body1"
         android:textSize="25sp" />
 
     <TextView
-        android:id="@+id/navi_email"
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="8dp"
-        android:layout_gravity="center_horizontal"
         android:text="ykhambay@syr.edu"
-        android:textColor="@color/navtextSecondaryColor"
+        android:id="@+id/navi_email"
         android:textSize="18sp"
         android:textAppearance="@style/TextAppearance.AppCompat.Body2"/>
+
 </LinearLayout>

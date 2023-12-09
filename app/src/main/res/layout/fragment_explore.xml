@@ -53,6 +53,7 @@
                     android:layout_height="wrap_content"
                     android:text="TextView"
                     android:layout_marginTop="5dp"
+                    android:textIsSelectable="true"
                     style="@style/NormalText"
                    />
 
@@ -121,6 +122,110 @@
                     android:text="@string/thingstodo"
 
                     style="@style/Heading"/>
+
+                <HorizontalScrollView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:fillViewport="true">
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content">
+
+                        <LinearLayout
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:orientation="vertical"
+                            android:layout_margin="4dp">
+
+                            <com.mikhaellopez.circularimageview.CircularImageView
+                                android:layout_width="120dp"
+                                android:layout_height="120dp"
+                                android:layout_gravity="start"
+                                android:id="@+id/act1"
+                                android:src="@drawable/ic_launcher_foreground"
+                                app:civ_border_color="#EEEEEE"
+                                app:civ_border_width="2dp"
+                                app:civ_shadow="true"
+                                app:civ_shadow_color="#8BC34A"
+                                app:civ_shadow_radius="5"
+                                />
+
+                            <TextView
+                                android:id="@+id/act1_detail"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="@string/thingstodo"
+                                android:layout_gravity="center_horizontal"
+                                style="@style/NormalText"/>
+
+                        </LinearLayout>
+
+                        <LinearLayout
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:orientation="vertical"
+                            android:layout_margin="4dp">
+
+                            <com.mikhaellopez.circularimageview.CircularImageView
+                                android:layout_width="120dp"
+                                android:layout_height="120dp"
+                                android:layout_gravity="start"
+                                android:id="@+id/act2"
+                                android:src="@drawable/ic_launcher_foreground"
+                                app:civ_border_color="#EEEEEE"
+                                app:civ_border_width="2dp"
+                                app:civ_shadow="true"
+                                app:civ_shadow_color="#8BC34A"
+                                app:civ_shadow_radius="5"
+                               />
+
+                            <TextView
+                                android:id="@+id/act2_detail"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="@string/thingstodo"
+                                android:layout_gravity="center_horizontal"
+                                style="@style/NormalText"/>
+
+                        </LinearLayout>
+                        <LinearLayout
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:orientation="vertical"
+                            android:layout_margin="4dp">
+
+                            <com.mikhaellopez.circularimageview.CircularImageView
+                                android:layout_width="120dp"
+                                android:layout_height="120dp"
+                                android:layout_gravity="start"
+                                android:id="@+id/act3"
+                                android:src="@drawable/ic_launcher_foreground"
+                                app:civ_border_color="#EEEEEE"
+                                app:civ_border_width="2dp"
+                                app:civ_shadow="true"
+                                app:civ_shadow_color="#8BC34A"
+                                app:civ_shadow_radius="5"
+                                />
+
+                            <TextView
+                                android:id="@+id/act3_detail"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="@string/thingstodo"
+                                android:layout_gravity="center_horizontal"
+                                style="@style/NormalText"/>
+
+                        </LinearLayout>
+
+
+
+
+                    </LinearLayout>
+
+                </HorizontalScrollView>
+
+
 
             </LinearLayout>
         </ScrollView>

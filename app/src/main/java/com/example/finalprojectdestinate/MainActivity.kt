@@ -1,6 +1,8 @@
 package com.example.finalprojectdestinate
 
 import android.content.Intent
+import android.graphics.Bitmap
+import android.graphics.BitmapFactory
 import android.os.Bundle
 import android.text.InputType
 import android.util.Log
@@ -21,6 +23,7 @@ import androidx.navigation.fragment.NavHostFragment.Companion.findNavController
 import androidx.navigation.ui.NavigationUI.setupWithNavController
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.google.android.material.navigation.NavigationView
+import com.mikhaellopez.circularimageview.CircularImageView
 
 class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelectedListener {
 
@@ -31,6 +34,8 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
     private lateinit var currentUserLastName : String
     lateinit var userListCreatedb: ArrayList<UserData>
     private val myDB: DatabaseHelper by lazy { DatabaseHelper(this) }
+
+    private lateinit var currentUserImage : ByteArray
 
     private var searchvalue : String = "Syracuse" //default value
 
@@ -63,17 +68,35 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
         val headerview: View = navigationView.getHeaderView(0)
         val defaultuser: TextView = headerview.findViewById(R.id.navi_name)
         val defaultemail: TextView = headerview.findViewById(R.id.navi_email)
+        val userprofile : CircularImageView =headerview.findViewById(R.id.navi_user_image)
 
         for ( user in userListCreatedb){
             if(user.username == currentUser){
                 currentUserFirstname = user.firstname.toString()
                 currentUserLastName = user.lastname.toString()
+                currentUserImage = user.profileImg
             }
         }
 
         defaultuser.text = currentUserFirstname + " "+ currentUserLastName
         defaultemail.text= currentUser
 
+        val byteArray = currentUserImage
+
+        val bitmap: Bitmap? = BitmapFactory.decodeByteArray(byteArray, 0, byteArray.size)
+
+        if ( bitmap!= null) {
+            userprofile.setImageBitmap(bitmap)
+        }
+        else{
+            if (currentUserFirstname == "Yash"){
+                userprofile.setImageResource(R.drawable.yash)
+            }
+            if (currentUserFirstname == "Tabish"){
+                userprofile.setImageResource(R.drawable.tabish)
+            }
+
+        }
 
 
 

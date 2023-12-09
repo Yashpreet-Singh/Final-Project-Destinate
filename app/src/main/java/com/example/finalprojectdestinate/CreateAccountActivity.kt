@@ -1,12 +1,18 @@
 package com.example.finalprojectdestinate
 
+import android.app.Activity
 import android.app.DatePickerDialog
 import android.content.Intent
+import android.graphics.Bitmap
+import android.graphics.BitmapFactory
 import android.os.Bundle
+import android.provider.MediaStore
 import android.widget.Button
 import android.widget.EditText
+import android.widget.ImageView
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
+import java.io.ByteArrayOutputStream
 import java.util.Calendar
 
 class CreateAccountActivity : AppCompatActivity() {
@@ -18,6 +24,13 @@ class CreateAccountActivity : AppCompatActivity() {
     private lateinit var confirmPasswordEditText: EditText
     private lateinit var dobEditText: EditText
     private lateinit var createAccountButton: Button
+
+    private lateinit var imageUploadButton: ImageView
+    private val PICK_IMAGE_REQUEST = 1
+
+    private lateinit var  imageByteArray :ByteArray
+
+
 
     //innitialize database
     //lateinit var userListCreatedb: ArrayList<UserData>
@@ -36,6 +49,8 @@ class CreateAccountActivity : AppCompatActivity() {
         dobEditText = findViewById(R.id.dob)
         createAccountButton = findViewById(R.id.create_account)
 
+        imageUploadButton =findViewById(R.id.userImageView)
+
         //intialize dtabase
         //myDB.initializeTables() //we get our tables
         //get userTable
@@ -45,6 +60,16 @@ class CreateAccountActivity : AppCompatActivity() {
         dobEditText.setOnClickListener {
             showDatePickerDialog()
         }
+
+        imageUploadButton.setOnClickListener {
+            val gallery = Intent()
+            gallery.type = "image/*"
+            gallery.action = Intent.ACTION_PICK
+            startActivityForResult(Intent.createChooser(gallery, "Select a picture"), PICK_IMAGE_REQUEST)
+            //val intent = Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI)
+            //startActivityForResult(intent, PICK_IMAGE_REQUEST)
+        }
+
 
         // Set up the create account button
         createAccountButton.setOnClickListener {
@@ -58,7 +83,8 @@ class CreateAccountActivity : AppCompatActivity() {
             if (validateAccountCreation(email, password, confirmPassword, dob,firstname,lastname)) {
                 // whathappens after account creation ->add this data in tables
 
-                myDB.addNewUser(email, password, firstname, lastname)
+
+                myDB.addNewUser(email, password, firstname, lastname, imageByteArray)//give image
 
                 Toast.makeText(this, "Account Created Successfully", Toast.LENGTH_SHORT).show()
 
@@ -72,6 +98,14 @@ class CreateAccountActivity : AppCompatActivity() {
                 Toast.makeText(this, "Invalid Input", Toast.LENGTH_SHORT).show()
             }
         }
+
+
+
+
+
+
+
+
     }
 
     private fun showDatePickerDialog() {
@@ -100,4 +134,34 @@ class CreateAccountActivity : AppCompatActivity() {
         }
         return true
     }
-}
+
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        super.onActivityResult(requestCode, resultCode, data)
+
+        if (requestCode == PICK_IMAGE_REQUEST && resultCode == Activity.RESULT_OK) {
+            data?.data?.let { imageUri ->
+                val imageBitmap = loadBitmapFromUri(imageUri)
+                imageByteArray = convertBitmapToByteArray(imageBitmap)
+
+                // Store image in the database
+
+
+                //dbHelper.addImage(imageByteArray)
+            }
+        }
+
+        }
+
+    private fun loadBitmapFromUri(uri: android.net.Uri): Bitmap {
+        return BitmapFactory.decodeStream(contentResolver.openInputStream(uri))
+    }
+
+    private fun convertBitmapToByteArray(bitmap: Bitmap): ByteArray {
+        val stream = ByteArrayOutputStream()
+        bitmap.compress(Bitmap.CompressFormat.JPEG, 100, stream)
+        return stream.toByteArray()
+    }
+
+
+    }
+
