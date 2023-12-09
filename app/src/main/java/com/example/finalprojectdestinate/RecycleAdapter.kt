@@ -94,7 +94,7 @@ class RecycleAdapter (val userInfo: ArrayList<UserData>, val context: Context, v
 
 
     override fun getItemCount(): Int {
-        return userInfo.count { it.myposts!!.isNotEmpty() }
+        return userInfo.count { it.myposts != null }
     }
 
     inner class UserViewHolder(view: View): androidx.recyclerview.widget.RecyclerView.ViewHolder(view) {
