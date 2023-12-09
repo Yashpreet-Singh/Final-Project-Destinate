@@ -200,11 +200,11 @@ class DatabaseHelper(context: Context) : SQLiteOpenHelper(context, DB_NAME, null
 
 
     //Delete a movie
-//    fun deleteMovie(id: Int) {
-//        val db = this.writableDatabase
-//        db.delete("movies", "$COL_ID = ?", arrayOf(id.toString()))
-//        db.close()
-//    }
+    fun deleteUser(id: Int) {
+        val db = this.writableDatabase
+        db.delete("UserTable", "$COL_UID = ?", arrayOf(id.toString()))
+        db.close()
+    }
 
 //    //Delete all checked movies
 //    fun deleteAllMovies(){
@@ -325,9 +325,7 @@ class DatabaseHelper(context: Context) : SQLiteOpenHelper(context, DB_NAME, null
 
     }
 
-    fun readUser(email: String,password: String){
 
-    }
 
 
 

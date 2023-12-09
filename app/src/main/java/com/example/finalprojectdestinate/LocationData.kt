@@ -132,11 +132,11 @@ data class TripData(
 ) : Serializable
 
 data class UserData(
-    @SerializedName("firstname") val firstname: String?,
-    @SerializedName("lastname") val lastname: String?,
-    @SerializedName("username") val username: String?,
-    @SerializedName("passsword") val password: String?,
-    @SerializedName("myposts") val myposts: String?,
+    @SerializedName("firstname") var firstname: String?,
+    @SerializedName("lastname") var lastname: String?,
+    @SerializedName("username") var username: String?,
+    @SerializedName("passsword") var password: String?,
+    @SerializedName("myposts") var myposts: String?,
     @SerializedName("is_liked") var isLiked:  Boolean?,
     @SerializedName("title") var title:  String?,
     @SerializedName("db_uid") var dbuid: Int = -1, // db primary key

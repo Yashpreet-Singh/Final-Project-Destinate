@@ -8,13 +8,21 @@ import android.view.Menu
 import android.view.MenuInflater
 import android.view.View
 import android.view.ViewGroup
+import android.view.animation.OvershootInterpolator
 import android.widget.Button
+import android.widget.EditText
 import android.widget.ImageButton
+import android.widget.TextView
+import android.widget.Toast
 import androidx.activity.OnBackPressedCallback
 import androidx.cardview.widget.CardView
+import androidx.core.view.get
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import jp.wasabeef.recyclerview.adapters.ScaleInAnimationAdapter
+import jp.wasabeef.recyclerview.animators.SlideInUpAnimator
+import kotlin.properties.Delegates
 
 // TODO: Rename parameter arguments, choose names that match
 // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
@@ -42,6 +50,16 @@ class CommunityFragment : Fragment(), RecycleAdapter.MyItemClickListener{
     private lateinit var likeButton: ImageButton
 
     private lateinit var currentUser: String
+
+
+
+    private lateinit var addtitle: EditText
+    private lateinit var addimageurl:EditText
+    private lateinit var currentUserFullName: TextView
+
+    private var currentUserisLiked by Delegates.notNull<Boolean>()
+
+    private lateinit var myNewUser :UserData
 
 
 //    override fun onCreate(savedInstanceState: Bundle?) {
@@ -96,14 +114,42 @@ class CommunityFragment : Fragment(), RecycleAdapter.MyItemClickListener{
         recyclerView.layoutManager = LinearLayoutManager(requireContext())
 
         // giving my adapter the database to make changes
-        myAdapter = RecycleAdapter(userListdb,requireContext(), myDB)
+        myAdapter = RecycleAdapter(userListdb,requireContext(), myDB,currentUser)
 
         myAdapter.setMyItemClickListener(this) //Register ItemClick listener
 
         recyclerView.adapter = myAdapter
 
+        //animation for adapter
+        val scaleAdapter = ScaleInAnimationAdapter(myAdapter).apply {
+            setDuration(500)
+            setInterpolator(OvershootInterpolator())
+            setFirstOnly(false)
+        }
+        recyclerView.adapter = scaleAdapter
+
+
+        // Apply item animator from Wasabeef library
+        recyclerView.itemAnimator = SlideInUpAnimator(OvershootInterpolator()).apply {
+            addDuration = 500
+            removeDuration = 500
+        }
+
+
         //initialize card
         addCard =view.findViewById(R.id.myadd_cardview)
+
+        addtitle =view.findViewById(R.id.add_title)
+        addimageurl =view.findViewById(R.id.add_imageurl)
+
+        //set user name curretusername
+
+        currentUserFullName= view.findViewById(R.id.current_user)
+
+
+
+
+
 
         // Find the add button by its ID
         addButton = view.findViewById(R.id.add_button)
@@ -113,6 +159,23 @@ class CommunityFragment : Fragment(), RecycleAdapter.MyItemClickListener{
             //make add_cardview visible
             addCard.visibility = View.VISIBLE
 
+            //find details of current user and copy it , only update if user hit post button
+            for (user in userListdb){
+                if(user.username == currentUser){
+
+                    myNewUser = user.copy()
+                    currentUserFullName.text= user.firstname + " " + user.lastname
+
+//                //getting from  cuurent user
+//                myNewUser.username = currentUser
+//                myNewUser.lastname = user.lastname.toString()
+//                myNewUser.password = user.password.toString()
+//                myNewUser.firstname = user.firstname.toString()
+//                myNewUser.isLiked = user.isLiked == tru
+
+                }
+            }
+
 
         }
 
@@ -121,7 +184,42 @@ class CommunityFragment : Fragment(), RecycleAdapter.MyItemClickListener{
         // Set up a click listener
         postButton.setOnClickListener {
 
-            //make add_cardview gone
+
+
+            //added later
+            myNewUser.title = addtitle.text.toString().trim()
+            myNewUser.myposts =addimageurl.text.toString().trim()
+
+
+
+            if (myNewUser.title!!.isNotEmpty() && myNewUser.myposts!!.isNotEmpty()) {
+
+                //update the recycel list
+                myAdapter.addUser(myNewUser)
+                //userListdb.add(myNewUser) // list from community fragment
+                //recyclerView.getChildAt( userListdb.count { it.myposts!!.isNotEmpty() } +1 )
+
+                //add the new post and title for the user
+                myDB.addUsers(myNewUser)
+
+                //make feild empty
+                addtitle.text.clear()
+                addimageurl.text.clear()
+
+                Toast.makeText(context, "Post uploaded!", Toast.LENGTH_SHORT).show()
+                //make add_cardview gone
+                //addCard.visibility = View.GONE
+
+            } else {
+
+                Toast.makeText(context, "title and imageurl cannot be empty,database not updated", Toast.LENGTH_SHORT).show()
+                //make add_cardview gone
+                //addCard.visibility = View.GONE
+            }
+
+            //add the new post and titile for the user
+            //myDB.addUsers(myNewUser)
+
             addCard.visibility = View.GONE
 
         }

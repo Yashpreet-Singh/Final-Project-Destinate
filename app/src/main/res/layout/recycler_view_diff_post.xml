@@ -1,0 +1,111 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    app:cardCornerRadius="10dp"
+    app:cardElevation="4dp"
+    app:contentPadding="5dp"
+    app:cardMaxElevation="10dp"
+    app:cardUseCompatPadding="true"
+    app:cardBackgroundColor="@color/aqua"
+    android:background="@drawable/cardview_border">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <FrameLayout
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:layout_alignParentTop="true"
+            android:id="@+id/frame_name">
+
+
+
+            <TextView
+                android:id="@+id/user_name"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+
+                android:layout_gravity="start|center_vertical"
+                android:text="TextView" />
+            <ImageButton
+                android:id="@+id/delete"
+                android:layout_width="50dp"
+                android:layout_height="50dp"
+                android:layout_gravity="end"
+                android:contentDescription="@string/close_nav"
+                android:visibility="gone"
+                android:src="@drawable/outline_app_registration_24" />
+
+
+
+        </FrameLayout>
+        <FrameLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/desp_block"
+            android:layout_below="@+id/frame_name">
+
+
+            <TextView
+                android:id="@+id/description"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="TextView" />
+
+        </FrameLayout>
+
+        <ImageView
+            android:id="@+id/user_pic"
+            android:layout_width="match_parent"
+            android:layout_height="170dp"
+            android:src="@drawable/ic_launcher_background"
+            android:layout_marginTop="10dp"
+            android:layout_marginBottom="15dp"
+            android:layout_below="@+id/desp_block"
+            android:scaleType="fitXY"/>
+
+        <FrameLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/user_pic">
+
+
+
+            <ImageButton
+                android:id="@+id/likebutton"
+                android:layout_width="50dp"
+                android:layout_height="50dp"
+                android:layout_gravity="start|center_vertical"
+                android:layout_marginStart="6dp"
+
+                android:contentDescription="@string/app_name"
+                android:src="@android:drawable/btn_star" />
+
+            <EditText
+                android:layout_width="300dp"
+                android:layout_height="48dp"
+
+                android:hint="Comment"
+
+                android:padding="5dp"
+                android:layout_marginStart="3dp"
+                android:gravity="start|center_vertical"
+                android:layout_gravity="end|center">
+
+            </EditText>
+
+
+
+
+
+        </FrameLayout>
+
+
+
+    </RelativeLayout>
+</androidx.cardview.widget.CardView>

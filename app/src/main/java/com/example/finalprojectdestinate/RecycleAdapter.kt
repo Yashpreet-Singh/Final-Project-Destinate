@@ -8,10 +8,13 @@ import android.view.ViewGroup
 import android.widget.ImageButton
 import android.widget.ImageView
 import android.widget.TextView
+import android.widget.Toast
+import androidx.core.view.isGone
+import com.google.android.material.shape.ShapeAppearanceModel
 import com.squareup.picasso.Picasso
 
 
-class RecycleAdapter (val userInfo: ArrayList<UserData>, val context: Context, val myDB: DatabaseHelper):
+class RecycleAdapter (val userInfo: ArrayList<UserData>, val context: Context, val myDB: DatabaseHelper , val currentUser : String):
     androidx.recyclerview.widget.RecyclerView.Adapter<RecycleAdapter.UserViewHolder>(){
 
     var myListener: MyItemClickListener? = null
@@ -29,7 +32,16 @@ class RecycleAdapter (val userInfo: ArrayList<UserData>, val context: Context, v
         viewType: Int
     ): RecycleAdapter.UserViewHolder {
 
-        val view = LayoutInflater.from(parent.context).inflate(R.layout.recycler_view_post, parent, false)
+        //val view = LayoutInflater.from(parent.context).inflate(R.layout.recycler_view_post, parent, false)
+
+        val layoutId = when (viewType) {
+            SAME_USER -> R.layout.recycler_view_post //with delete button
+            DIFFERENT_USER -> R.layout.recycler_view_diff_post  //wihtout delet button
+            else -> throw IllegalArgumentException("Invalid ")
+        }
+        val view = LayoutInflater.from(parent.context).inflate(layoutId, parent, false)
+
+
 
         return  UserViewHolder(view)
     }
@@ -37,25 +49,27 @@ class RecycleAdapter (val userInfo: ArrayList<UserData>, val context: Context, v
 
 
     override fun onBindViewHolder(holder: RecycleAdapter.UserViewHolder, position: Int) {
-        val userpost= userInfo[position]
+        val userpost = userInfo[position]
 
-        holder.userName.text = userpost.firstname
+        if (userpost.myposts!!.isNotEmpty() || userpost.title!!.isNotEmpty()) {
 
-        Picasso.get().load(userpost.myposts).error(R.mipmap.ic_launcher).into(holder.userPost)
+            holder.userName.text = userpost.firstname
 
-        holder.description.text =userpost.title
+            Picasso.get().load(userpost.myposts).error(R.mipmap.ic_launcher).into(holder.userPost)
 
-        // Check if the post is liked (you may have a data structure to track this)
-        val isLiked = userpost.isLiked
+            holder.description.text = userpost.title
 
-        Log.i("current value in on bind",isLiked.toString())
+            // Check if the post is liked (you may have a data structure to track this)
+            val isLiked = userpost.isLiked
 
-        // Set initial background color based on whether the post is liked
-        if (isLiked == true) {
-            holder.likeButton.setBackgroundColor(context.resources.getColor(R.color.blue))
-        } else {
-            holder.likeButton.setBackgroundColor(context.resources.getColor(R.color.white))
-        }
+            Log.i("current value in on bind", isLiked.toString())
+
+            // Set initial background color based on whether the post is liked
+            if (isLiked == true) {
+                holder.likeButton.setBackgroundColor(context.resources.getColor(R.color.blue))
+            } else {
+                holder.likeButton.setBackgroundColor(context.resources.getColor(R.color.white))
+            }
 
 //        // Set up click listener for the like button
 //        holder.likeButton.setOnClickListener {
@@ -73,15 +87,14 @@ class RecycleAdapter (val userInfo: ArrayList<UserData>, val context: Context, v
 //        }
 
 
-
-
+        }
     }
 
 
 
 
     override fun getItemCount(): Int {
-        return userInfo.size
+        return userInfo.count { it.myposts!!.isNotEmpty() }
     }
 
     inner class UserViewHolder(view: View): androidx.recyclerview.widget.RecyclerView.ViewHolder(view) {
@@ -121,11 +134,61 @@ class RecycleAdapter (val userInfo: ArrayList<UserData>, val context: Context, v
 
 
             }
+
+
+            deleteButton.setOnClickListener{ //same user post
+                if (myListener != null) {
+                    if (adapterPosition != androidx.recyclerview.widget.RecyclerView.NO_POSITION) {
+
+                        val user = userInfo[adapterPosition]
+
+                        if (deleteButton.visibility != View.GONE){ //only posiible for sam users
+
+
+                            //delete from the list
+                            deleteMovie(adapterPosition)
+
+                            //delete user from database
+                            myDB.deleteUser(user.dbuid)
+
+                            Toast.makeText(context, "Post deleted!", Toast.LENGTH_SHORT).show()
+
+                            notifyDataSetChanged()
+
+                        }
+
+
+
+
+                    }
+                }
+
+            }
         }
 
 
     }
 
+    override fun getItemViewType(position:Int): Int{
+        return if (userInfo[position].username == currentUser) SAME_USER else DIFFERENT_USER
+    }
+
+    companion object {
+        const val SAME_USER = 4
+        const val DIFFERENT_USER = 1
+    }
+
+    fun deleteMovie(position: Int) {
+        // Remove the movie at the specified position
+        userInfo.removeAt(position)
+    }
+
+    //adding user to adapater list
+    fun addUser(user: UserData) {
+
+        userInfo.add(0,user)//add new at first index
+        notifyDataSetChanged()
+    }
 
 
 
