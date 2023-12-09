@@ -3,12 +3,12 @@
     <group android:checkableBehavior="single">
         <item
             android:id="@+id/action1"
-
+            android:icon="@drawable/baseline_account_box_24"
             android:title="My Account"
             />
         <item
             android:id="@+id/action2"
-
+            android:icon="@drawable/baseline_add_ic_call_24"
             android:title="Support" />
 
     </group>

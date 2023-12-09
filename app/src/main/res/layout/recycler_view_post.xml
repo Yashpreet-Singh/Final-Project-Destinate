@@ -10,7 +10,7 @@
     app:contentPadding="5dp"
     app:cardMaxElevation="10dp"
     app:cardUseCompatPadding="true"
-    app:cardBackgroundColor="#f9f9f9"
+    app:cardBackgroundColor="@color/lightcyan"
     android:background="@drawable/cardview_border">
 
     <RelativeLayout
@@ -19,9 +19,10 @@
 
         <FrameLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="50dp"
             android:layout_alignParentTop="true"
             android:id="@+id/frame_name">
+
 
 
 
@@ -31,14 +32,17 @@
                 android:layout_height="wrap_content"
 
                 android:layout_gravity="start|center_vertical"
-                android:text="TextView" />
+                android:text="TextView"
+                style="@style/Heading1"/>
 
             <ImageButton
                 android:id="@+id/delete"
                 android:layout_width="50dp"
                 android:layout_height="50dp"
                 android:layout_gravity="end"
+                android:background="@drawable/cardview_border"
                 android:contentDescription="@string/close_nav"
+
                 android:src="@drawable/outline_app_registration_24" />
 
 
@@ -56,7 +60,8 @@
                 android:id="@+id/description"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="TextView" />
+                android:text="TextView"
+                style="@style/NormalText"/>
 
         </FrameLayout>
 
@@ -76,32 +81,33 @@
             android:layout_below="@+id/user_pic">
 
 
+
             <ImageButton
                 android:id="@+id/likebutton"
-                android:layout_width="71dp"
-                android:layout_height="80dp"
+                android:layout_width="50dp"
+                android:layout_height="50dp"
                 android:layout_gravity="start|center_vertical"
                 android:layout_marginStart="6dp"
+                android:background="@drawable/cardview_border"
                 android:contentDescription="@string/app_name"
-                android:scaleType="fitCenter"
-                android:src="@drawable/likebutton" />
-                
-                <EditText
-                    android:layout_width="300dp"
-                    android:layout_height="48dp"
+                android:src="@android:drawable/btn_star" />
 
-                    android:hint="Comment"
+            <EditText
+                android:layout_width="300dp"
+                android:layout_height="48dp"
 
-                    android:padding="5dp"
-                    android:layout_marginStart="3dp"
-                    android:gravity="start|center_vertical"
-                    android:layout_gravity="end|center">
+                android:hint="Comment"
+                android:textStyle="bold"
+                android:padding="5dp"
+                android:layout_marginStart="3dp"
+                android:gravity="start|center_vertical"
+                android:layout_gravity="end|center">
 
-                </EditText>
-                
-                
+            </EditText>
 
-            
+
+
+
 
         </FrameLayout>
 

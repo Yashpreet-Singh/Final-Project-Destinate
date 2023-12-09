@@ -54,6 +54,11 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
         val toolbar = findViewById<Toolbar>(R.id.toolbar)
         setSupportActionBar(toolbar)
 
+        //supportActionBar?.setLogo(R.drawable.destinate1)
+        supportActionBar?.title="Destinate"
+
+
+
 
         drawerlayout = findViewById(R.id.drawer_layout)
         val toggle = ActionBarDrawerToggle(this,drawerlayout,toolbar,R.string.open_nav, R.string.close_nav)

@@ -128,7 +128,7 @@ val locationData = """
                 {
                     "firstname": "Yash",
                     "lastname": "Singh",
-                    "username" : "yp",
+                    "username" : "ypsingh",
                     "profile_img": [],
                     "passsword": "xyz",
                     "title"    : "I didn't enjoy the place",
@@ -137,7 +137,7 @@ val locationData = """
                 {
                     "firstname": "Tabish",
                     "lastname": "Khan",
-                    "username" : "tb",
+                    "username" : "tabish",
                     "profile_img": [],
                     "passsword": "xyz",
                     "title"    : "I enjoyed the place",
