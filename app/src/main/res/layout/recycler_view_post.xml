@@ -31,7 +31,8 @@
                 android:layout_height="wrap_content"
 
                 android:layout_gravity="start|center_vertical"
-                android:text="TextView" />
+                android:text="TextView"
+                style="@style/Heading1"/>
 
             <ImageButton
                 android:id="@+id/delete"
@@ -39,6 +40,7 @@
                 android:layout_height="50dp"
                 android:layout_gravity="end"
                 android:contentDescription="@string/close_nav"
+                android:background="@drawable/cardview_border"
                 android:src="@drawable/outline_app_registration_24" />
 
 
@@ -56,7 +58,8 @@
                 android:id="@+id/description"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="TextView" />
+                android:text="TextView"
+                style="@style/NormalText1"/>
 
         </FrameLayout>
 
@@ -83,7 +86,7 @@
                     android:layout_height="50dp"
                     android:layout_gravity="start|center_vertical"
                     android:layout_marginStart="6dp"
-
+                    android:background="@drawable/cardview_border"
                     android:contentDescription="@string/app_name"
                     android:src="@android:drawable/btn_star" />
                 
@@ -92,7 +95,7 @@
                     android:layout_height="48dp"
 
                     android:hint="Comment"
-
+                    android:textStyle="bold"
                     android:padding="5dp"
                     android:layout_marginStart="3dp"
                     android:gravity="start|center_vertical"

@@ -1,6 +1,7 @@
 package com.example.finalprojectdestinate
 
 import android.annotation.SuppressLint
+import android.app.Dialog
 import android.content.pm.PackageManager
 import android.location.Address
 import android.location.Geocoder
@@ -11,6 +12,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
+import androidx.appcompat.app.AlertDialog
 import androidx.fragment.app.Fragment
 import com.google.android.gms.location.FusedLocationProviderClient
 import com.google.android.gms.location.LocationServices
@@ -48,6 +50,7 @@ class GuideFragment : Fragment(), OnMapReadyCallback {
     private lateinit var currentLocation :Location
     private lateinit var searchboxValue :String
     private lateinit var city :String
+    private lateinit var  dialog : AlertDialog
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -64,15 +67,11 @@ class GuideFragment : Fragment(), OnMapReadyCallback {
         // Inflate the layout for this fragment
         val view = inflater.inflate(R.layout.fragment_guide, container, false)
 
-        fusedLocationProviderClient  = LocationServices.getFusedLocationProviderClient(requireContext())
-        getUserLocation() // get location on view created
-
-        //get search results on view created
-        val activity: MainActivity? = activity as MainActivity?
-        searchboxValue = activity?.getSearchValue().toString()
-        Log.d("itemfrommain", searchboxValue)
-
-
+        val builder = AlertDialog.Builder(requireContext())
+        builder.setCancelable(false)
+        builder.setView(R.layout.progress)
+        dialog = builder.create()
+        dialog.show()
 
 
 //        val locationManager: LocationManager = requireContext().getSystemService(Context.LOCATION_SERVICE) as LocationManager
@@ -146,6 +145,24 @@ class GuideFragment : Fragment(), OnMapReadyCallback {
 
     }
 
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+
+
+        fusedLocationProviderClient  = LocationServices.getFusedLocationProviderClient(requireContext())
+
+
+        getUserLocation() // get location on view created
+
+        //get search results on view created
+        val activity: MainActivity? = activity as MainActivity?
+        searchboxValue = activity?.getSearchValue().toString()
+        Log.d("itemfrommain", searchboxValue)
+
+
+
+    }
+
 
 
     override fun onMapReady(googleMap: GoogleMap) {
@@ -200,6 +217,8 @@ class GuideFragment : Fragment(), OnMapReadyCallback {
         googleMap.uiSettings.isZoomControlsEnabled= true
         googleMap.uiSettings.isCompassEnabled=true
 
+
+        dialog.cancel()
 
 
     }
@@ -256,6 +275,7 @@ class GuideFragment : Fragment(), OnMapReadyCallback {
         grantResults: IntArray
     ) {
         super.onRequestPermissionsResult(requestCode, permissions, grantResults)
+
         when(requestCode){
             PERMISSIONS_REQUEST_ACCESS_FINE_LOCATION -> if(grantResults.isNotEmpty() && grantResults[0]==
                 PackageManager.PERMISSION_GRANTED){

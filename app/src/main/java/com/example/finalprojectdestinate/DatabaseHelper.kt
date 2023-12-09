@@ -2,9 +2,13 @@ package com.example.finalprojectdestinate
 
 import android.content.ContentValues
 import android.content.Context
+import android.content.res.Resources
 import android.database.sqlite.SQLiteDatabase
 import android.database.sqlite.SQLiteOpenHelper
+import android.graphics.Bitmap
+import android.graphics.BitmapFactory
 import android.util.Log
+import java.io.ByteArrayOutputStream
 
 class DatabaseHelper(context: Context) : SQLiteOpenHelper(context, DB_NAME, null, DB_VER) {
 
@@ -22,6 +26,13 @@ class DatabaseHelper(context: Context) : SQLiteOpenHelper(context, DB_NAME, null
         private val COL_TOURISIM3 = "tourism_vid3"
         private val COL_TOURISIM4 = "tourism_vid4"
 
+        private val COL_ACTIVITY1 = "activities1"
+        private val COL_ACTIVITY2 = "activities2"
+        private val COL_ACTIVITY3 = "activities3"
+
+
+
+
 
         private val COL_UID = "dbuid" //unique id for user table
         private val COL_FIRSTNAME = "firstname"
@@ -32,14 +43,17 @@ class DatabaseHelper(context: Context) : SQLiteOpenHelper(context, DB_NAME, null
         private val COL_POST = "mypost"
         private val COL_DESCRIPITION = "title"
 
+        private val COL_PROFILEIMAGE = "profile_img"
+
 
         // create table LocationData
         private val CREATE_TABLE_LOCATION = "CREATE TABLE IF NOT EXISTS LocationTable " +
                 "( $COL_TID INTEGER PRIMARY KEY AUTOINCREMENT, $COL_LOCATION TEXT, " +
-                "$COL_OVERVIEW TEXT,$COL_TOURISIM1 TEXT, $COL_TOURISIM2 TEXT, $COL_TOURISIM3 TEXT, $COL_TOURISIM4 TEXT )"
+                "$COL_OVERVIEW TEXT,$COL_TOURISIM1 TEXT, $COL_TOURISIM2 TEXT, $COL_TOURISIM3 TEXT, $COL_TOURISIM4 TEXT ,"+
+                "$COL_ACTIVITY1 TEXT,$COL_ACTIVITY2 TEXT,$COL_ACTIVITY3 TEXT )"
 
 
-        private val CREATE_TABLE_USER_TABLE = "CREATE TABLE IF NOT EXISTS UserTable ( $COL_UID INTEGER PRIMARY KEY AUTOINCREMENT, " +
+        private val CREATE_TABLE_USER_TABLE = "CREATE TABLE IF NOT EXISTS UserTable ( $COL_UID INTEGER PRIMARY KEY AUTOINCREMENT, $COL_PROFILEIMAGE BLOB, " +
                "$COL_FIRSTNAME TEXT, $COL_LASTNAME TEXT, $COL_USERNAME TEXT, $COL_PASSWORD TEXT, $COL_POST TEXT, $COL_LIKED BOOLEAN ,$COL_DESCRIPITION TEXT )"
 
 
@@ -134,10 +148,47 @@ class DatabaseHelper(context: Context) : SQLiteOpenHelper(context, DB_NAME, null
         values.put(COL_POST, user.myposts)
         values.put(COL_DESCRIPITION, user.title)
         values.put(COL_LIKED, 0)//not liked
+        //add profileimage
 
+        val name = user.firstname
 
+       //val newval =convertDrawableToByteArray(LocationData().defaulTProfileTable[name])
+
+        values.put(COL_PROFILEIMAGE,user.profileImg)
+
+        Log.i("NormalTablename",user.profileImg.toString())
+        Log.i("Tablename",LocationData().defaulTProfileTable[name].toString())
+        Log.i("ValueTablename",convertDrawableToByteArray(LocationData().defaulTProfileTable[name]).toString())
 
         db.insert("UserTable", null, values)
+
+        //when it creates
+        //updateImageUser(user)
+
+
+    }
+    private fun convertDrawableToByteArray(drawableId: Int?):ByteArray{
+
+//    val bitmap = (d as BitmapDrawable).bitmap
+//    val stream = ByteArrayOutputStream()
+//    bitmap.compress(Bitmap.CompressFormat.PNG, 100, stream)
+//    val bitmapdata = stream.toByteArray()
+//    return bitmapdata
+
+//    val bitmap = BitmapFactory.decodeResource(android.content.res.Resources, Int)
+//    val stream = ByteArrayOutputStream()
+//    bitmap.compress(Bitmap.CompressFormat.PNG, 100, stream)
+//    val bitMapData = stream.toByteArray()
+
+        val resources = Resources.getSystem()
+        //val context = com.example.finalprojectdestinate. .getInstance().applicationContext
+        val bitmap = drawableId?.let { BitmapFactory.decodeResource(resources, it) }
+
+        val byteArrayOutputStream = ByteArrayOutputStream()
+        bitmap?.compress(Bitmap.CompressFormat.JPEG, 90, byteArrayOutputStream)
+        return byteArrayOutputStream.toByteArray()
+
+
 
     }
 
@@ -155,8 +206,13 @@ class DatabaseHelper(context: Context) : SQLiteOpenHelper(context, DB_NAME, null
         values.put(COL_TOURISIM3, place.tourismVid[2])
         values.put(COL_TOURISIM4, place.tourismVid[3])
 
+        values.put(COL_ACTIVITY1, place.activities!![0])
+        values.put(COL_ACTIVITY2, place.activities!![1])
+        values.put(COL_ACTIVITY3, place.activities!![2])
+
 
         return db.insert("LocationTable", null, values)
+
     }
 
 //    fun addGenre(type: Int, genre: String): Long {
@@ -240,12 +296,18 @@ class DatabaseHelper(context: Context) : SQLiteOpenHelper(context, DB_NAME, null
                 add(c.getString(with(c) { getColumnIndex(COL_TOURISIM3) }))
                 add(c.getString(with(c) { getColumnIndex(COL_TOURISIM4) }))
             } //for every row startempty
+            val activitesList = mutableListOf<String?>().apply {
+                add(c.getString(with(c) { getColumnIndex(COL_ACTIVITY1) }))
+                add(c.getString(with(c) { getColumnIndex(COL_ACTIVITY2) }))
+                add(c.getString(with(c) { getColumnIndex(COL_ACTIVITY3) }))
+            }
 
             val locationInfo = TripData(
                 dbtid = c.getInt(with(c) { getColumnIndex(COL_TID) }), //unquie id
                 overview = c.getString(with(c) { getColumnIndex(COL_OVERVIEW) }),
                 location = c.getString(with(c) { getColumnIndex(COL_LOCATION) }),
-                tourismVid = tourismList.toList().filterNotNull()
+                tourismVid = tourismList.toList().filterNotNull(),
+                activities =  activitesList.toList().filterNotNull()
 
             )
             getLocationList.add(locationInfo)
@@ -275,7 +337,8 @@ class DatabaseHelper(context: Context) : SQLiteOpenHelper(context, DB_NAME, null
                 password = c.getString(with(c) { getColumnIndex(COL_PASSWORD) }),
                 isLiked = c.getInt(with(c) { getColumnIndex(COL_LIKED) }) == 1, //returns true or false
                 myposts = c.getString(with(c) { getColumnIndex(COL_POST) }),
-                title =  c.getString(with(c) { getColumnIndex(COL_DESCRIPITION) })
+                title =  c.getString(with(c) { getColumnIndex(COL_DESCRIPITION) }),
+                profileImg = c.getBlob(with(c) { getColumnIndex(COL_PROFILEIMAGE) })
 
             )
             getUserList.add(UserInfo)
@@ -305,7 +368,7 @@ class DatabaseHelper(context: Context) : SQLiteOpenHelper(context, DB_NAME, null
     }
 
 
-    fun addNewUser(email: String, password: String, firstname :String,lastname:String){
+    fun addNewUser(email: String, password: String, firstname :String,lastname:String , imageData : ByteArray){
 
         val db =this.writableDatabase
 
@@ -315,15 +378,41 @@ class DatabaseHelper(context: Context) : SQLiteOpenHelper(context, DB_NAME, null
         values.put(COL_LASTNAME, lastname)
         values.put(COL_USERNAME, email)
         values.put(COL_PASSWORD, password)
-        //values.put(COL_POST, user.myposts)
-        //values.put(COL_DESCRIPITION, user.title)
+        //values.put(COL_POST, user.myposts) //null
+        //values.put(COL_DESCRIPITION, user.title)//null
         values.put(COL_LIKED, 0)//not liked
+
+        values.put(COL_PROFILEIMAGE,imageData) //new user with profile image
+
+        Log.i("Newuserimage",imageData.toString())
+
 
         db.insert("UserTable", null, values)
 
 
 
+
     }
+
+    fun updateImageUser(user: UserData) {
+        Log.d("Update done","done")
+        val db = this.writableDatabase
+
+        val values = ContentValues()
+
+
+        val name = user.firstname
+        values.put(COL_PROFILEIMAGE, convertDrawableToByteArray(LocationData().defaulTProfileTable[name]))
+
+        db.update("UserTable", values, "$COL_UID = ?", arrayOf(user.dbuid.toString()))
+
+        //db.close()
+    }
+
+
+
+
+
 
 
 

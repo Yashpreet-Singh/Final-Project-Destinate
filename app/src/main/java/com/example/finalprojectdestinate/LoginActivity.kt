@@ -2,10 +2,12 @@ package com.example.finalprojectdestinate
 
 import android.content.Intent
 import android.os.Bundle
+import android.util.Log
 import android.widget.Button
 import android.widget.EditText
 import android.widget.TextView
 import android.widget.Toast
+import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 
 class LoginActivity : AppCompatActivity() {
@@ -26,6 +28,7 @@ class LoginActivity : AppCompatActivity() {
         myDB.initializeTables() //we get our tables (nned to call onece in full code)
         //get userTable
         userListCreatedb=myDB.getAllUserData()
+        Log.d("data", userListCreatedb.toString())
 
         loginButton.setOnClickListener {
             val email = emailEditText.text.toString().trim()
@@ -42,6 +45,13 @@ class LoginActivity : AppCompatActivity() {
                     startActivity(it)
 
                 }
+
+                val builder = AlertDialog.Builder(this)
+                builder.setCancelable(false)
+                builder.setView(R.layout.progress)
+                val dialog: AlertDialog = builder.create()
+                dialog.show()
+
 
 
 

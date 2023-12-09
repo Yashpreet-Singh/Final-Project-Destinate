@@ -9,10 +9,12 @@ import android.view.ViewGroup
 import android.webkit.WebChromeClient
 import android.webkit.WebView
 import android.webkit.WebViewClient
+import android.widget.ImageView
 import android.widget.TextView
 import android.widget.Toast
 import androidx.fragment.app.FragmentActivity
 import androidx.fragment.app.FragmentManager
+import com.mikhaellopez.circularimageview.CircularImageView
 
 // TODO: Rename parameter arguments, choose names that match
 // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
@@ -36,6 +38,14 @@ class ExploreFragment : Fragment() {
     private lateinit var youtubeframe3 : WebView
     private lateinit var youtubeframe4 : WebView
 
+    private lateinit var actImage1 : CircularImageView
+    private lateinit var actImage2 : CircularImageView
+    private lateinit var actImage3 : CircularImageView
+
+    private lateinit var actDetailText1 : TextView
+    private lateinit var actDetailText2 : TextView
+    private lateinit var actDetailText3 : TextView
+
     private lateinit var searchCountry : TextView
     private lateinit var content : TextView
 
@@ -46,15 +56,9 @@ class ExploreFragment : Fragment() {
     lateinit var locationListdb: ArrayList<TripData>
     private val myDB: DatabaseHelper by lazy { DatabaseHelper(requireContext()) }
 
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        arguments?.let {
-            param1 = it.getString(ARG_PARAM1)
-            param2 = it.getString(ARG_PARAM2)
-        }
+    var ImageTable: MutableMap<String, Int> = mutableMapOf()
 
 
-    }
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -92,8 +96,42 @@ class ExploreFragment : Fragment() {
 
         searchCountry =view.findViewById(R.id.search_country)
         content = view.findViewById(R.id.overview_content)
+
+        actDetailText1 = view.findViewById(R.id.act1_detail)
+        actDetailText2 = view.findViewById(R.id.act2_detail)
+        actDetailText3 = view.findViewById(R.id.act3_detail)
+
+        actImage1 =view.findViewById(R.id.act1)
+        actImage2 =view.findViewById(R.id.act2)
+        actImage3 =view.findViewById(R.id.act3)
+
         //view.findViewById<TextView>(R.id.search_country)
         //view.findViewById<TextView>(R.id.search_country)
+
+        //setup images
+        ImageTable["Hiking"]= R.drawable.hiking
+        ImageTable["Sightseeing"]=R.drawable.sightseeing
+        ImageTable["Bird Watching"]= R.drawable.birdwatching
+        ImageTable["Kayaking"]=R.drawable.kayaking
+        ImageTable["Fishing"]= R.drawable.fishing
+        ImageTable["Cycling"]= R.drawable.cycling
+        ImageTable["Zip Lining"]=R.drawable.ziplining
+        ImageTable["Horseback Riding"]= R.drawable.horseriding
+        ImageTable["Geocaching"]= R.drawable.geocoaching
+//        ImageTable["Hiking"]=cx
+//        ImageTable["Hiking"]=cx
+//        ImageTable["Hiking"]=cx
+//
+//        ImageTable["Hiking"]=cx
+//        ImageTable["Hiking"]=cx
+//        ImageTable["Hiking"]=cx
+
+
+
+
+
+
+
 
         if (!checkLocationInDB(view)){
             Toast.makeText(requireContext(), "Place not in database..setting to current location", Toast.LENGTH_LONG).show()
@@ -130,6 +168,16 @@ class ExploreFragment : Fragment() {
                 //initialize data
                 searchCountry.text = place.location
                 content.text = place.overview
+
+                actDetailText1.text =place.activities!![0]
+                actDetailText2.text = place.activities[1]
+                actDetailText3.text = place.activities[2]
+
+                //giving image to map on refresh if happens
+
+                actImage1.setImageResource(ImageTable[place.activities[0]]!!)
+                actImage2.setImageResource(ImageTable[place.activities[1]]!!)
+                actImage3.setImageResource(ImageTable[place.activities[2]]!!)
 
 
 

@@ -23,4 +23,10 @@
         <item name="android:padding">@dimen/small_padding</item>
 
     </style>
+    <style name="NormalText1">
+        <item name="android:textColor">@android:color/black</item>
+        <item name="android:textSize">@dimen/medium_text_size</item>
+        <item name="android:padding">@dimen/medium_padding</item>
+
+    </style>
 </resources>

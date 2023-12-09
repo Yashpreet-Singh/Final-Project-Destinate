@@ -1,10 +1,20 @@
 package com.example.finalprojectdestinate
 
+import android.content.res.Resources
+import android.graphics.Bitmap
+import android.graphics.BitmapFactory
+import android.util.Log
 import com.google.gson.Gson
 import com.google.gson.GsonBuilder
+import com.google.gson.JsonArray
+import com.google.gson.JsonObject
+import com.google.gson.JsonPrimitive
 import com.google.gson.annotations.SerializedName
 import com.google.gson.reflect.TypeToken
+import java.io.ByteArrayOutputStream
 import java.io.Serializable
+import java.util.Base64
+
 
 class LocationData {
 
@@ -12,6 +22,44 @@ class LocationData {
     private val gson = GsonBuilder().setLenient().create()
     //val locationList: DataContainer = gson.fromJson(locationData, DataContainer::class.java)
     val locationList: ArrayList<DataContainer> = gson.fromJson(locationData, object : TypeToken<ArrayList<DataContainer>>() {}.type)
+    //var  modifiedLocationList : ArrayList<DataContainer>
+    var defaulTProfileTable: MutableMap<String, Int> = mutableMapOf()
+
+
+
+    init {
+
+        defaulTProfileTable = mutableMapOf()
+        defaulTProfileTable["Yash"] = R.drawable.yash
+        defaulTProfileTable["Tabish"] = R.drawable.tabish
+
+        Log.i("done", defaulTProfileTable["Yash"].toString())
+//
+//
+//        for (loc in locationList) {
+//            for (user in loc.userData!!) {
+//                user.profileImg = convertDrawableToByteArray(defaulTProfileTable[user.firstname])
+//
+//                //Log.i("newimgdone1",convertDrawableToByteArray(defaulTProfileTable[user.firstname]).toString())
+//                //Log.i("newimgdone2",user.profileImg.toString())
+//            }
+//            //Log.i("newnewlist",loc.userData.toString())
+//            val updatedJsonData = Gson().toJson(jsonArray)
+//            Log.d("newlistdone",updatedJsonData.toString())
+//        }
+//        //Log.i("newlistdone", locationList[0].userData.toString())
+//        // Convert the JsonObject back to a JSON string
+
+
+
+
+
+
+
+
+    }
+
+
 
 }
 
@@ -32,8 +80,11 @@ val locationData = """
                             "<iframe width=\"100%\" height=\"100%\" src=\"https://www.youtube.com/embed/ARohgpPL_PY?si=4nc0zp-xUxjSCH0K\" title=\"YouTube video player\" frameborder=\"0\" allow=\"accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share\" allowfullscreen></iframe>"
                        ],
                        "activities" :[
-                            "Hiking",
-                            "Sightseeing",
+                            "Kayaking",
+                             "Fishing",
+                             "Cycling"
+                             
+                             
                        ]
                     },
                     {   
@@ -46,8 +97,10 @@ val locationData = """
                             "<iframe width=\"100%\" height=\"100%\" src=\"https://www.youtube.com/embed/p2vhC8nHSwU?si=mbWGsjRt2RMV1q3o\" title=\"YouTube video player\" frameborder=\"0\" allow=\"accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share\" allowfullscreen></iframe>"
                        ],
                        "activities" :[
-                            "Hiking",
-                            "Sightseeing",
+                            "Zip Lining",
+                            "Horseback Riding",
+                            "Geocaching"
+                            
                        ]
                     },
                     {   
@@ -62,6 +115,8 @@ val locationData = """
                        "activities" :[
                             "Hiking",
                             "Sightseeing",
+                            "Bird Watching"
+                            
                        ]
                     }
                     
@@ -73,27 +128,22 @@ val locationData = """
                 {
                     "firstname": "Yash",
                     "lastname": "Singh",
-                    "username" : "ypsingh200@gmail.com",
+                    "username" : "yp",
+                    "profile_img": [],
                     "passsword": "xyz",
                     "title"    : "I didn't enjoy the place",
                     "myposts" : "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQWdB260xE2AnVBPMWp-xgwU1lu4qhM7VHV0l8paSGp3hkOjUUml52P7Ewg7gKkyPz4Ah4&usqp=CAU"
                 },
                 {
                     "firstname": "Tabish",
-                    "lastname": "Singh",
-                    "username" : "ypsingh200@gmail.com",
+                    "lastname": "Khan",
+                    "username" : "tb",
+                    "profile_img": [],
                     "passsword": "xyz",
                     "title"    : "I enjoyed the place",
                     "myposts" : "https://media.cntraveler.com/photos/61eae2a9fe18edcbd885cb01/1:1/w_3031,h_3031,c_limit/Seychelles_GettyImages-1169388113.jpg"
-                },
-                {
-                    "firstname": "Tabishoip",
-                    "lastname": "Singh",
-                    "username" : "yp",
-                    "passsword": "xyz",
-                    "title"    : "I ahte the place",
-                    "myposts" : "https://images.pexels.com/photos/268533/pexels-photo-268533.jpeg?auto=compress&cs=tinysrgb&dpr=1&w=500"
                 }
+               
             ]
         }
         
@@ -128,7 +178,7 @@ data class TripData(
     @SerializedName("tourism_vid") val tourismVid: List<String>?,
     @SerializedName("db_tid") var dbtid: Int = -1, // db primary key
 
-    //@SerializedName("activities") val activities: List<String>?
+    @SerializedName("activities") val activities: List<String>?
 ) : Serializable
 
 data class UserData(
@@ -138,11 +188,67 @@ data class UserData(
     @SerializedName("passsword") var password: String?,
     @SerializedName("myposts") var myposts: String?,
     @SerializedName("is_liked") var isLiked:  Boolean?,
+    @SerializedName("profile_img") var profileImg:  ByteArray,
     @SerializedName("title") var title:  String?,
     @SerializedName("db_uid") var dbuid: Int = -1, // db primary key
-) : Serializable
+) : Serializable {
+    override fun equals(other: Any?): Boolean {
+        if (this === other) return true
+        if (javaClass != other?.javaClass) return false
+
+        other as UserData
+
+        if (firstname != other.firstname) return false
+        if (lastname != other.lastname) return false
+        if (username != other.username) return false
+        if (password != other.password) return false
+        if (myposts != other.myposts) return false
+        if (isLiked != other.isLiked) return false
+        if (!profileImg.contentEquals(other.profileImg)) return false
+        if (title != other.title) return false
+        return dbuid == other.dbuid
+    }
+
+    override fun hashCode(): Int {
+        var result = firstname?.hashCode() ?: 0
+        result = 31 * result + (lastname?.hashCode() ?: 0)
+        result = 31 * result + (username?.hashCode() ?: 0)
+        result = 31 * result + (password?.hashCode() ?: 0)
+        result = 31 * result + (myposts?.hashCode() ?: 0)
+        result = 31 * result + (isLiked?.hashCode() ?: 0)
+        result = 31 * result + profileImg.contentHashCode()
+        result = 31 * result + (title?.hashCode() ?: 0)
+        result = 31 * result + dbuid
+        return result
+    }
+}
 
 data class DataContainer(
     @SerializedName("tripData") val tripData: ArrayList<TripData>?,
     @SerializedName("userData") val userData: ArrayList<UserData>?
 ) : Serializable
+
+
+
+//"""
+//Hiking",
+//    "Camping",
+//    "Cycling",
+//    "Rock Climbing",
+//    "Kayaking",
+//    "Fishing",
+//    "Canoeing",
+//    "Skiing or Snowboarding",
+//    "Bird Watching",
+//    "Surfing",
+//    "Photography",
+//    "Zip Lining",
+//    "Horseback Riding",
+//    "Geocaching",
+//    "Stargazing",
+//    "White Water Rafting",
+//    "Sailing",
+//    "Stand-Up Paddleboarding (SUP)",
+//    "Nature Walks"
+//"""
+
