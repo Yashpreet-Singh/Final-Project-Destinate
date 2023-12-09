@@ -10,7 +10,7 @@
     app:contentPadding="5dp"
     app:cardMaxElevation="10dp"
     app:cardUseCompatPadding="true"
-    app:cardBackgroundColor="@color/aqua"
+    app:cardBackgroundColor="#f9f9f9"
     android:background="@drawable/cardview_border">
 
     <RelativeLayout
@@ -22,8 +22,6 @@
             android:layout_height="50dp"
             android:layout_alignParentTop="true"
             android:id="@+id/frame_name">
-
-
 
             <TextView
                 android:id="@+id/user_name"
@@ -82,7 +80,6 @@
                 android:layout_height="50dp"
                 android:layout_gravity="start|center_vertical"
                 android:layout_marginStart="6dp"
-
                 android:contentDescription="@string/app_name"
                 android:src="@android:drawable/btn_star" />
 

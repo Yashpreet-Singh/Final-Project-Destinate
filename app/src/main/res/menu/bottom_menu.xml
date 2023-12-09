@@ -6,20 +6,21 @@
         android:id="@+id/planFragment"
         android:enabled="true"
         android:title="Plan"
-
+        android:icon='@drawable/baseline_airplanemode_active_24'
         app:showAsAction="ifRoom" />
 
     <item
         android:id="@+id/bookFragment"
         android:enabled="true"
         android:title="Book"
+        android:icon="@drawable/baseline_assignment_24"
         app:showAsAction="ifRoom" />
 
     <item
         android:id="@+id/communityFragment"
         android:enabled="true"
         android:title="Community"
-
+        android:icon="@drawable/baseline_3p_24"
         app:showAsAction="ifRoom" />
 
 </menu>

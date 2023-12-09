@@ -5,7 +5,7 @@
     android:orientation="vertical"
     android:padding="16dp">
 
-    <!-- TextView for Airline (CompanyShortName) -->
+
     <TextView
         android:id="@+id/tvCompanyShortName"
         android:layout_width="wrap_content"
@@ -13,28 +13,24 @@
         android:textSize="18sp"
         android:textStyle="bold"/>
 
-    <!-- TextView for Departure Name (FLSDepartureName) -->
     <TextView
         android:id="@+id/tvDepartureName"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:textSize="16sp"/>
 
-    <!-- TextView for Arrival Code (FLSArrivalCode) -->
     <TextView
         android:id="@+id/tvArrivalCode"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:textSize="14sp"/>
 
-    <!-- TextView for Departure DateTime (FLSDepartureDateTime) -->
     <TextView
         android:id="@+id/tvDepartureDateTime"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:textSize="14sp"/>
 
-    <!-- TextView for Arrival DateTime (FLSArrivalDateTime) -->
     <TextView
         android:id="@+id/tvArrivalDateTime"
         android:layout_width="wrap_content"

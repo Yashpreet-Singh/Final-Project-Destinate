@@ -23,4 +23,13 @@
         <item name="android:padding">@dimen/small_padding</item>
 
     </style>
+    <style name="CustomBottomNavigationView" parent="Widget.MaterialComponents.BottomNavigationView">
+        <item name="itemIconSize">40dp</item> <!-- Adjust icon size -->
+        <item name="itemTextAppearance">@style/BottomNavigationTextAppearance</item>
+        <item name="android:background">@drawable/bottom_nav_background</item> <!-- Custom background with curved corners -->
+    </style>
+
+    <style name="BottomNavigationTextAppearance">
+        <item name="android:textSize">14sp</item>
+    </style>
 </resources>

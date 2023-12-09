@@ -10,7 +10,7 @@
     app:contentPadding="5dp"
     app:cardMaxElevation="10dp"
     app:cardUseCompatPadding="true"
-    app:cardBackgroundColor="@color/aqua"
+    app:cardBackgroundColor="#f9f9f9"
     android:background="@drawable/cardview_border">
 
     <RelativeLayout
@@ -74,18 +74,17 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_below="@+id/user_pic">
-            
 
 
-                <ImageButton
-                    android:id="@+id/likebutton"
-                    android:layout_width="50dp"
-                    android:layout_height="50dp"
-                    android:layout_gravity="start|center_vertical"
-                    android:layout_marginStart="6dp"
-
-                    android:contentDescription="@string/app_name"
-                    android:src="@android:drawable/btn_star" />
+            <ImageButton
+                android:id="@+id/likebutton"
+                android:layout_width="71dp"
+                android:layout_height="80dp"
+                android:layout_gravity="start|center_vertical"
+                android:layout_marginStart="6dp"
+                android:contentDescription="@string/app_name"
+                android:scaleType="fitCenter"
+                android:src="@drawable/likebutton" />
                 
                 <EditText
                     android:layout_width="300dp"
