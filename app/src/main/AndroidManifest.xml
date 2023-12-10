@@ -31,31 +31,28 @@
 
         <activity
             android:name=".LoginActivity"
-            android:exported="true">
+            android:parentActivityName="com.example.finalprojectdestinate.MainActivity"
+           >
 
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
-                <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
 
         </activity>
 
         <activity
             android:name=".CreateAccountActivity"
-            android:parentActivityName="com.example.finalprojectdestinate.LoginActivity">
-            <meta-data
-                android:name="android.support.PARENT_ACTIVITY"
-                android:value="com.example.finalprojectdestinate.LoginActivity" />
+            android:parentActivityName="com.example.finalprojectdestinate.MainActivity">
+
 
         </activity>
 
 
         <activity
             android:name=".MainActivity"
-            android:parentActivityName="com.example.finalprojectdestinate.LoginActivity">
-            <meta-data
-                android:name="android.support.PARENT_ACTIVITY"
-                android:value="com.example.finalprojectdestinate.LoginActivity" />
+            android:exported="true">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+
 
         </activity>
     </application>

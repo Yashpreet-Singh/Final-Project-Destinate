@@ -76,14 +76,14 @@ class CommunityFragment : Fragment(), RecycleAdapter.MyItemClickListener{
 
 
         //when you press backbutton while you are in communitiy fragment, goes back to plan fragment
-        val onBackPressedCallback =object: OnBackPressedCallback(true) {
-            override fun handleOnBackPressed() {
-                findNavController().navigate(R.id.action_communityFragment_to_planFragment)
-            }
-
-        }
-        //regesister the backpress to this fragment
-        requireActivity().onBackPressedDispatcher.addCallback(onBackPressedCallback)
+//        val onBackPressedCallback =object: OnBackPressedCallback(true) {
+//            override fun handleOnBackPressed() {
+//                findNavController().navigate(R.id.action_communityFragment_to_planFragment)
+//            }
+//
+//        }
+//        //regesister the backpress to this fragment
+//        requireActivity().onBackPressedDispatcher.addCallback(onBackPressedCallback)
 
 
         //get cuurent user from mainactivity
@@ -189,6 +189,7 @@ class CommunityFragment : Fragment(), RecycleAdapter.MyItemClickListener{
             //added later
             myNewUser.title = addtitle.text.toString().trim()
             myNewUser.myposts =addimageurl.text.toString().trim()
+            myNewUser.isLiked = false //giving false to the button
 
 
 

@@ -1,104 +1,137 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    tools:context=".CreateAccountActivity">
+    android:layout_height="match_parent">
 
 
-
-    <ImageView
-        android:id="@+id/userImageView"
-        android:layout_width="300dp"
-        android:layout_height="150dp"
-        android:src="@drawable/profile"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintRight_toRightOf="parent"
-        android:scaleType="fitCenter"
-        android:layout_marginTop="16dp"/>
-
-<!--    <Button-->
-<!--        android:id="@+id/uploadImageButton"-->
-<!--        android:layout_width="wrap_content"-->
-<!--        android:layout_height="wrap_content"-->
-<!--        android:text="Upload Image"-->
-<!--        app:layout_constraintTop_toBottomOf="@id/userImageView"-->
-<!--        app:layout_constraintLeft_toLeftOf="parent"-->
-<!--        app:layout_constraintRight_toRightOf="parent"-->
-<!--        android:layout_marginTop="8dp"/>-->
-
-
-    <LinearLayout
+    <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="16dp"
-        android:orientation="vertical"
-        android:padding="16dp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintHorizontal_bias="0.0"
-        app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/userImageView"
-        app:layout_constraintVertical_bias="0.0">
+        android:layout_height="match_parent"
+        tools:context=".CreateAccountActivity">
 
-        <EditText
-            android:id="@+id/inputfirstname"
+
+
+        <ImageView
+            android:id="@+id/userImageView"
+            android:layout_width="300dp"
+            android:layout_height="150dp"
+            android:src="@drawable/profile"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toRightOf="parent"
+            android:scaleType="fitCenter"
+
+
+            android:layout_marginTop="16dp"/>
+
+        <TextView
+            android:id="@+id/upload_text"
+            style="@style/Heading"
             android:layout_width="match_parent"
             android:layout_height="50dp"
-            android:layout_marginBottom="8dp"
+            android:textAlignment="center"
 
-            android:hint="Firstname" />
+            android:hint="Upload Image"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/userImageView" />
 
-        <EditText
-            android:id="@+id/inputlastname"
-            android:layout_width="match_parent"
-            android:layout_height="50dp"
-            android:layout_marginBottom="8dp"
-
-            android:hint="Lastname" />
-
-        <EditText
-            android:id="@+id/dob"
-            android:layout_width="match_parent"
-            android:layout_height="50dp"
-            android:layout_marginBottom="8dp"
-            android:focusable="false"
-            android:hint="Date of Birth" />
-
-        <EditText
-            android:id="@+id/email"
-            android:layout_width="match_parent"
-            android:layout_height="50dp"
-            android:layout_marginBottom="8dp"
-            android:hint="Email"
-            android:inputType="textEmailAddress" />
-
-        <EditText
-            android:id="@+id/password"
-            android:layout_width="match_parent"
-            android:layout_height="50dp"
-            android:layout_marginBottom="8dp"
-            android:hint="Password"
-            android:inputType="textPassword"
-            android:autofillHints="Password" />
-
-        <EditText
-            android:id="@+id/confirm_password"
-            android:layout_width="match_parent"
-            android:layout_height="50dp"
-            android:layout_marginBottom="8dp"
-            android:hint="Confirm Password"
-            android:inputType="textPassword" />
+    <!--    <Button-->
+    <!--        android:id="@+id/uploadImageButton"-->
+    <!--        android:layout_width="wrap_content"-->
+    <!--        android:layout_height="wrap_content"-->
+    <!--        android:text="Upload Image"-->
+    <!--        app:layout_constraintTop_toBottomOf="@id/userImageView"-->
+    <!--        app:layout_constraintLeft_toLeftOf="parent"-->
+    <!--        app:layout_constraintRight_toRightOf="parent"-->
+    <!--        android:layout_marginTop="8dp"/>-->
 
 
-
-        <Button
-            android:id="@+id/create_account"
+        <LinearLayout
+            android:id="@+id/linearLayout2"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Create Account" />
+            android:layout_marginTop="16dp"
+            android:orientation="vertical"
+            android:padding="16dp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintHorizontal_bias="0.0"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/upload_text"
+            app:layout_constraintVertical_bias="0.0">
 
-    </LinearLayout>
-</androidx.constraintlayout.widget.ConstraintLayout>
+            <EditText
+                android:id="@+id/inputfirstname"
+                style="@style/NormalText"
+                android:layout_width="match_parent"
+                android:layout_height="50dp"
+                android:layout_marginBottom="8dp"
+                android:background="@drawable/edittext_background"
+                android:hint="Firstname" />
+
+            <EditText
+                android:id="@+id/inputlastname"
+                style="@style/NormalText"
+                android:layout_width="match_parent"
+                android:layout_height="50dp"
+                android:layout_marginBottom="8dp"
+                android:background="@drawable/edittext_background"
+                android:hint="Lastname" />
+
+            <EditText
+                android:id="@+id/dob"
+                style="@style/NormalText"
+                android:layout_width="match_parent"
+                android:layout_height="50dp"
+                android:layout_marginBottom="8dp"
+                android:background="@drawable/edittext_background"
+                android:focusable="false"
+                android:hint="Date of Birth" />
+
+            <EditText
+                android:id="@+id/email"
+                style="@style/NormalText"
+                android:layout_width="match_parent"
+                android:layout_height="50dp"
+                android:layout_marginBottom="8dp"
+                android:background="@drawable/edittext_background"
+                android:hint="Email"
+                android:inputType="textEmailAddress" />
+
+            <EditText
+                android:id="@+id/password"
+                style="@style/NormalText"
+                android:layout_width="match_parent"
+                android:layout_height="50dp"
+                android:layout_marginBottom="8dp"
+                android:autofillHints="Password"
+                android:background="@drawable/edittext_background"
+                android:hint="Password"
+                android:inputType="textPassword" />
+
+            <EditText
+                android:id="@+id/confirm_password"
+                style="@style/NormalText"
+                android:layout_width="match_parent"
+                android:layout_height="50dp"
+                android:layout_marginBottom="8dp"
+                android:background="@drawable/edittext_background"
+                android:hint="Confirm Password"
+                android:inputType="textPassword" />
+
+
+            <Button
+                android:id="@+id/create_account"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="20dp"
+                android:background="@drawable/button_background"
+                android:text="Create Account"
+                android:textColor="@color/button_text_color" />
+
+        </LinearLayout>
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</ScrollView>

@@ -28,7 +28,7 @@ class CreateAccountActivity : AppCompatActivity() {
     private lateinit var imageUploadButton: ImageView
     private val PICK_IMAGE_REQUEST = 1
 
-    private lateinit var  imageByteArray :ByteArray
+    private var  imageByteArray : ByteArray? = null
 
 
 
@@ -84,7 +84,10 @@ class CreateAccountActivity : AppCompatActivity() {
                 // whathappens after account creation ->add this data in tables
 
 
-                myDB.addNewUser(email, password, firstname, lastname, imageByteArray)//give image
+                myDB.addNewUser(email, password, firstname, lastname, imageByteArray!!)//give image
+
+
+
 
                 Toast.makeText(this, "Account Created Successfully", Toast.LENGTH_SHORT).show()
 

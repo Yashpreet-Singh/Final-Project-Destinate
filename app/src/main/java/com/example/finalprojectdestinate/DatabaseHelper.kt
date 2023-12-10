@@ -45,6 +45,9 @@ class DatabaseHelper(context: Context) : SQLiteOpenHelper(context, DB_NAME, null
 
         private val COL_PROFILEIMAGE = "profile_img"
 
+        private val COL_CURRENTUSER = "current_user"
+        private val COL_CID = "dbcid"
+
 
         // create table LocationData
         private val CREATE_TABLE_LOCATION = "CREATE TABLE IF NOT EXISTS LocationTable " +
@@ -56,9 +59,11 @@ class DatabaseHelper(context: Context) : SQLiteOpenHelper(context, DB_NAME, null
         private val CREATE_TABLE_USER_TABLE = "CREATE TABLE IF NOT EXISTS UserTable ( $COL_UID INTEGER PRIMARY KEY AUTOINCREMENT, $COL_PROFILEIMAGE BLOB, " +
                "$COL_FIRSTNAME TEXT, $COL_LASTNAME TEXT, $COL_USERNAME TEXT, $COL_PASSWORD TEXT, $COL_POST TEXT, $COL_LIKED BOOLEAN ,$COL_DESCRIPITION TEXT )"
 
+        private val CREATE_TABLE_CURRENT_USER = "CREATE TABLE IF NOT EXISTS CurrentUserTable ( $COL_CID INTEGER PRIMARY KEY AUTOINCREMENT, $COL_CURRENTUSER TEXT )"
 
         private val DROP_TABLE_LOCATION = "DROP TABLE IF EXISTS LocationTable"
         private val DROP_TABLE_USER_TABLE = "DROP TABLE IF EXISTS UserTable "
+        private val DROP_TABLE_CURRENT_USER = "DROP TABLE IF EXISTS CurrentUserTable "
 
     }
 
@@ -66,6 +71,7 @@ class DatabaseHelper(context: Context) : SQLiteOpenHelper(context, DB_NAME, null
         // Create tables on database creation
         db.execSQL(CREATE_TABLE_LOCATION)
         db.execSQL(CREATE_TABLE_USER_TABLE)
+        db.execSQL(CREATE_TABLE_CURRENT_USER)
 
     }
 
@@ -73,6 +79,7 @@ class DatabaseHelper(context: Context) : SQLiteOpenHelper(context, DB_NAME, null
         // Upgrade database if needed
         db.execSQL(DROP_TABLE_LOCATION)
         db.execSQL(DROP_TABLE_USER_TABLE)
+        db.execSQL(DROP_TABLE_CURRENT_USER)
 
         //onCreate(db)
     }
@@ -106,6 +113,15 @@ class DatabaseHelper(context: Context) : SQLiteOpenHelper(context, DB_NAME, null
             insertAllPlaces()
         }
         c.close()
+
+        query = "SELECT * FROM CurrentUserTable"
+
+        c = db.rawQuery(query, null)
+
+        if (c.count <= 0) {
+            insertDefaultCurrent()
+        }
+        c.close()
     }
 
     fun insertAllUsers() {
@@ -133,6 +149,18 @@ class DatabaseHelper(context: Context) : SQLiteOpenHelper(context, DB_NAME, null
             }
 
         }
+    }
+
+    fun insertDefaultCurrent(){
+
+        val db = this.writableDatabase
+        //add using to usertable
+        val values = ContentValues()
+        values.put(COL_CID,0)
+
+        db.insert("CurrentUserTable", null, values)
+
+
     }
 
 
@@ -348,6 +376,24 @@ class DatabaseHelper(context: Context) : SQLiteOpenHelper(context, DB_NAME, null
         return getUserList
     }
 
+    //getdata
+    fun getCurrentUser(): String? {
+
+        val db = this.readableDatabase
+
+        var user:String? = null
+        val query = "SELECT * FROM CurrentUserTable "
+
+        val c = db.rawQuery(query, null)
+
+        while (c.moveToNext()) {//iterate over all rows
+            user = c.getString(with(c) { getColumnIndex(COL_CURRENTUSER) }) //unquie id
+
+        }
+        c.close()
+        return user
+    }
+
 
 
     //update a movie -on check status
@@ -394,6 +440,8 @@ class DatabaseHelper(context: Context) : SQLiteOpenHelper(context, DB_NAME, null
 
     }
 
+
+
     fun updateImageUser(user: UserData) {
         Log.d("Update done","done")
         val db = this.writableDatabase
@@ -409,6 +457,33 @@ class DatabaseHelper(context: Context) : SQLiteOpenHelper(context, DB_NAME, null
         //db.close()
     }
 
+    fun updateCurrentUser(currentUser:String?,id:Int) {
+
+        val db = this.writableDatabase
+
+        val values = ContentValues()
+        //values.put(COL_CURRENTUSER,currentUser)
+
+        values.putNull(COL_CURRENTUSER)
+
+        if (currentUser != null) {
+            values.put(COL_CURRENTUSER, currentUser)
+        }
+
+        db.update("CurrentUserTable", values, "$COL_CID = ?", arrayOf(id.toString()))
+
+        db.close()
+
+        }
+
+        //Log.i("on database",user.toString())
+
+
+
+
+
+
+    }
 
 
 
@@ -421,4 +496,5 @@ class DatabaseHelper(context: Context) : SQLiteOpenHelper(context, DB_NAME, null
 
 
 
-}
+
+

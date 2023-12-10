@@ -5,6 +5,8 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.view.animation.Animation
+import android.view.animation.ScaleAnimation
 import android.widget.ImageButton
 import android.widget.ImageView
 import android.widget.TextView
@@ -51,7 +53,7 @@ class RecycleAdapter (val userInfo: ArrayList<UserData>, val context: Context, v
     override fun onBindViewHolder(holder: RecycleAdapter.UserViewHolder, position: Int) {
         val userpost = userInfo[position]
 
-        if (userpost.myposts!!.isNotEmpty() || userpost.title!!.isNotEmpty()) {
+        if (userpost.myposts != null && userpost.title != null) {
 
             holder.userName.text = userpost.firstname
 
@@ -66,9 +68,11 @@ class RecycleAdapter (val userInfo: ArrayList<UserData>, val context: Context, v
 
             // Set initial background color based on whether the post is liked
             if (isLiked == true) {
-                holder.likeButton.setBackgroundColor(context.resources.getColor(R.color.blue))
+                //holder.likeButton.setBackgroundColor(context.resources.getColor(R.color.blue))
+                holder.likeButton.setImageResource(android.R.drawable.btn_star_big_on)
             } else {
-                holder.likeButton.setBackgroundColor(context.resources.getColor(R.color.white))
+                //holder.likeButton.setBackgroundColor(context.resources.getColor(R.color.white))
+                holder.likeButton.setImageResource(android.R.drawable.btn_star_big_off)
             }
 
 //        // Set up click listener for the like button
@@ -117,14 +121,29 @@ class RecycleAdapter (val userInfo: ArrayList<UserData>, val context: Context, v
                         val user = userInfo[adapterPosition]
 
                         if (user.isLiked == true) {
-                            context.resources?.let { likeButton.setBackgroundColor(it.getColor(R.color.blue)) }
+                            //context.resources?.let { likeButton.setBackgroundColor(it.getColor(R.color.blue)) }
+                            likeButton.setImageResource(android.R.drawable.btn_star_big_on)
+
+                            //give animation
+                            val animation = ScaleAnimation(0.5f, 1.3f, 0.5f, 1.3f, Animation.RELATIVE_TO_SELF, 0.5f, Animation.RELATIVE_TO_SELF, 0.5f)
+                            animation.duration = 200
+                            //animation.startOffset = position * 200L
+                            likeButton.startAnimation(animation)
 
                             Log.i("on adpater",user.toString())
                             //update like in database
                             myDB.updateLikedUser(user) //sending type UserData of postion
 
                         } else {
-                            context.resources?.let { likeButton.setBackgroundColor(it.getColor(R.color.white)) }
+                            //context.resources?.let { likeButton.setBackgroundColor(it.getColor(R.color.white)) }
+
+                            likeButton.setImageResource(android.R.drawable.btn_star_big_off)
+
+                            //give animation
+                            val animation = ScaleAnimation(0.5f, 1.3f, 0.5f, 1.3f, Animation.RELATIVE_TO_SELF, 0.5f, Animation.RELATIVE_TO_SELF, 0.5f)
+                            animation.duration = 200
+                            //animation.startOffset = position * 200L
+                            likeButton.startAnimation(animation)
 
                             //update database
                             myDB.updateLikedUser(user)

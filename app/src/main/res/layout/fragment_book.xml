@@ -1,61 +1,66 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:orientation="vertical"
-    android:padding="16dp"
-    android:background="@color/background_color"
-    tools:context=".BookFragment">
+    android:layout_height="match_parent">
 
-    <EditText
-        android:id="@+id/etFromLocation"
+    <LinearLayout
+        xmlns:tools="http://schemas.android.com/tools"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:hint="From Location"
-        android:layout_marginBottom="8dp"
-        android:padding="12dp"
-        android:background="@drawable/edittext_background"
-        android:inputType="text"/>
-
-    <EditText
-        android:id="@+id/etToLocation"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:hint="To Location"
-        android:layout_marginBottom="8dp"
-        android:padding="12dp"
-        android:background="@drawable/edittext_background"
-        android:inputType="text"/>
-
-    <EditText
-        android:id="@+id/etDate"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:hint="Select Date"
-        android:drawableEnd="@mipmap/calendar"
-        android:layout_marginBottom="16dp"
-        android:padding="12dp"
-        android:background="@drawable/edittext_background"
-        android:focusable="false"
-        android:focusableInTouchMode="false"
-        android:inputType="none"/>
-
-    <Button
-        android:id="@+id/btnSearchFlights"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Search Flights"
-        android:layout_gravity="center_horizontal"
-        android:layout_marginBottom="16dp"
+        android:orientation="vertical"
         android:padding="16dp"
-        android:background="@drawable/button_background"
-        android:textColor="@color/button_text_color"/>
+        android:background="@color/background_color"
+        tools:context=".BookFragment">
 
-    <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/rvFlights"
-        android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:layout_weight="1"/>
+        <EditText
+            android:id="@+id/etFromLocation"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="From Location"
+            android:layout_marginBottom="8dp"
+            android:padding="12dp"
+            android:background="@drawable/edittext_background"
+            android:inputType="text"/>
 
-</LinearLayout>
+        <EditText
+            android:id="@+id/etToLocation"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="To Location"
+            android:layout_marginBottom="8dp"
+            android:padding="12dp"
+            android:background="@drawable/edittext_background"
+            android:inputType="text"/>
+
+        <EditText
+            android:id="@+id/etDate"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="Select Date"
+            android:drawableEnd="@mipmap/calendar"
+            android:layout_marginBottom="16dp"
+            android:padding="12dp"
+            android:background="@drawable/edittext_background"
+            android:focusable="false"
+            android:focusableInTouchMode="false"
+            android:inputType="none"/>
+
+        <Button
+            android:id="@+id/btnSearchFlights"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Search Flights"
+            android:layout_gravity="center_horizontal"
+            android:layout_marginBottom="16dp"
+            android:padding="16dp"
+            android:background="@drawable/button_background"
+            android:textColor="@color/button_text_color"/>
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/rvFlights"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="1"/>
+
+    </LinearLayout>
+</ScrollView>

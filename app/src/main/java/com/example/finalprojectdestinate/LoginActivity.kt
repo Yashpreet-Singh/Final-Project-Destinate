@@ -28,10 +28,12 @@ class LoginActivity : AppCompatActivity() {
         myDB.initializeTables() //we get our tables (nned to call onece in full code)
         //get userTable
         userListCreatedb=myDB.getAllUserData()
+        //currentUser =myDB.getCurrentUser()
+
         Log.d("data", userListCreatedb.toString())
 
         loginButton.setOnClickListener {
-            val email = emailEditText.text.toString().trim()
+            val email: String = emailEditText.text.toString().trim()
             val password = passwordEditText.text.toString().trim()
 
             if (validateLogin(email, password)) {
@@ -40,11 +42,19 @@ class LoginActivity : AppCompatActivity() {
 
                 //maybe add some pause
                 // Navigate to main activity also //after susscessful login pass the username to mainactivity
-                Intent(this, MainActivity::class.java).also {
-                    it.putExtra("Current_User_Name",email)
-                    startActivity(it)
+//                Intent(this, MainActivity::class.java).also {
+//                    it.putExtra("Current_User_Name",email)
+//                    startActivity(it)
+//
+//                }
 
-                }
+                //update current user
+                myDB.updateCurrentUser(email,0)
+
+                val intent = Intent(this, MainActivity::class.java)
+                startActivity(intent)
+
+
 
                 val builder = AlertDialog.Builder(this)
                 builder.setCancelable(false)
@@ -70,9 +80,9 @@ class LoginActivity : AppCompatActivity() {
         }
     }
 
-    private fun validateLogin(email: String, password: String): Boolean {
+    private fun validateLogin(email: String?, password: String): Boolean {
         // Basic validation logic
-        if (email.isEmpty()) {
+        if (email?.isEmpty() == true) {
             Toast.makeText(this, "Email is required", Toast.LENGTH_SHORT).show()
             return false
         }

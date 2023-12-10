@@ -188,40 +188,11 @@ data class UserData(
     @SerializedName("passsword") var password: String?,
     @SerializedName("myposts") var myposts: String?,
     @SerializedName("is_liked") var isLiked:  Boolean?,
-    @SerializedName("profile_img") var profileImg:  ByteArray,
+    @SerializedName("profile_img") var profileImg:  ByteArray?,
     @SerializedName("title") var title:  String?,
     @SerializedName("db_uid") var dbuid: Int = -1, // db primary key
-) : Serializable {
-    override fun equals(other: Any?): Boolean {
-        if (this === other) return true
-        if (javaClass != other?.javaClass) return false
+) : Serializable
 
-        other as UserData
-
-        if (firstname != other.firstname) return false
-        if (lastname != other.lastname) return false
-        if (username != other.username) return false
-        if (password != other.password) return false
-        if (myposts != other.myposts) return false
-        if (isLiked != other.isLiked) return false
-        if (!profileImg.contentEquals(other.profileImg)) return false
-        if (title != other.title) return false
-        return dbuid == other.dbuid
-    }
-
-    override fun hashCode(): Int {
-        var result = firstname?.hashCode() ?: 0
-        result = 31 * result + (lastname?.hashCode() ?: 0)
-        result = 31 * result + (username?.hashCode() ?: 0)
-        result = 31 * result + (password?.hashCode() ?: 0)
-        result = 31 * result + (myposts?.hashCode() ?: 0)
-        result = 31 * result + (isLiked?.hashCode() ?: 0)
-        result = 31 * result + profileImg.contentHashCode()
-        result = 31 * result + (title?.hashCode() ?: 0)
-        result = 31 * result + dbuid
-        return result
-    }
-}
 
 data class DataContainer(
     @SerializedName("tripData") val tripData: ArrayList<TripData>?,

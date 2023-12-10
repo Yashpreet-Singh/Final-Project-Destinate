@@ -24,19 +24,19 @@
                 android:layout_width="match_parent"
                 android:layout_height="50dp"
                 android:background="#ADD8E6"
-                app:titleTextColor="@color/white"
+                app:titleTextColor="@color/black"
 
                 />
 
             <FrameLayout
                 android:id="@+id/meContainer"
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:layout_marginTop="3dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="2dp"
                 android:background="@color/white"
-            android:layout_below="@id/toolbar"
+                android:layout_below="@id/toolbar"
                 android:adjustViewBounds="true"
-            android:fitsSystemWindows="true" />
+                android:fitsSystemWindows="true" />
 
 <!--            <androidx.fragment.app.FragmentContainerView-->
 <!--                android:id="@+id/fragmentContainerView"-->

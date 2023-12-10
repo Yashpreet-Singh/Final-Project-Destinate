@@ -43,7 +43,7 @@
                 android:background="@drawable/cardview_border"
                 android:contentDescription="@string/close_nav"
 
-                android:src="@drawable/outline_app_registration_24" />
+                android:src="@android:drawable/ic_menu_delete" />
 
 
 
@@ -88,9 +88,9 @@
                 android:layout_height="50dp"
                 android:layout_gravity="start|center_vertical"
                 android:layout_marginStart="6dp"
-                android:background="@drawable/cardview_border"
+                android:background="@color/lightcyan"
                 android:contentDescription="@string/app_name"
-                android:src="@android:drawable/btn_star" />
+                android:src="@android:drawable/btn_star_big_off" />
 
             <EditText
                 android:layout_width="300dp"
