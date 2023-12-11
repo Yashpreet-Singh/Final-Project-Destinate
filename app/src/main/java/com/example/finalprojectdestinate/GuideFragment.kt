@@ -52,10 +52,9 @@ class GuideFragment : Fragment(), OnMapReadyCallback {
     private lateinit var city :String
     private lateinit var  dialog : AlertDialog
 
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
+    private val myDB: DatabaseHelper by lazy { DatabaseHelper(requireContext()) }
 
-    }
+
 
 
 
@@ -155,9 +154,12 @@ class GuideFragment : Fragment(), OnMapReadyCallback {
         getUserLocation() // get location on view created
 
         //get search results on view created
-        val activity: MainActivity? = activity as MainActivity?
-        searchboxValue = activity?.getSearchValue().toString()
-        Log.d("itemfrommain", searchboxValue)
+        //val activity: MainActivity? = activity as MainActivity?
+        //searchboxValue = activity?.getSearchValue().toString()
+        //Log.d("itemfrommain", searchboxValue)
+
+        //Retrieve from datbase
+       searchboxValue = myDB.getCurrentSearch().toString()
 
 
 
@@ -297,10 +299,6 @@ class GuideFragment : Fragment(), OnMapReadyCallback {
                 address = addresses[0]
                 //fulladdress = address.getAddressLine(0) // If any additional address line present than only, check with max available address lines by getMaxAddressLineIndex
                 city = address.locality;
-                //var state = address.adminArea;
-//                var country = address.countryName;
-//                var postalCode = address.postalCode;
-//                var knownName = address.featureName; // Only if available else return NULL
             }
         }
         return city

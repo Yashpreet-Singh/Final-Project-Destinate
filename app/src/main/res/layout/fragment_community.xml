@@ -118,6 +118,8 @@
                         android:text="Post"
                         android:id="@+id/postButton"
                         android:textSize="18sp"
+                        android:background="@drawable/button_background"
+                        android:textColor="@color/button_text_color"
                         android:layout_marginTop="20dp"
                         app:cornerRadius = "20dp"
                         android:layout_gravity="center"/>

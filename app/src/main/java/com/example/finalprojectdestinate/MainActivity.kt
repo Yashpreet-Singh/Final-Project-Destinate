@@ -51,6 +51,7 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
        // println("From saved: $currentUser")
 
 
+
         //currentUserFromSaved= savedInstanceState?.getString("current user")
         // Fetching the stored data from the SharedPreference
 //        val sh = getSharedPreferences("MySharedPref", MODE_PRIVATE)
@@ -67,6 +68,9 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
         currentUser=myDB.getCurrentUser()
         userListCreatedb=myDB.getAllUserData()
 
+        searchvalue = myDB.getCurrentSearch().toString()
+
+        Log.i("From search",searchvalue.toString())
 //        if (currentUserFromSaved.isNullOrEmpty()){ //valued from savedsaved
 //            println("first loop1")
 //
@@ -252,9 +256,13 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
                 //back to login activity
                 val intent = Intent(this, LoginActivity::class.java)
                 startActivity(intent)
-
-
             }
+            R.id.action1->{
+                val intent = Intent(this, MyAccount::class.java)
+                startActivity(intent)
+            }
+
+
 
         }
 
@@ -278,6 +286,9 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
 
                 if (query != null) {
                     searchvalue =query //save the search value and pass it to explore fragment
+                    //update search value
+                    Log.i("Change to",searchvalue.toString())
+                    myDB.updateCurrentSearch(searchvalue,0)
 
 //                    val navController: NavController =
 //                        findNavController()

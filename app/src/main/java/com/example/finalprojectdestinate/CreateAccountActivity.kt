@@ -66,8 +66,7 @@ class CreateAccountActivity : AppCompatActivity() {
             gallery.type = "image/*"
             gallery.action = Intent.ACTION_PICK
             startActivityForResult(Intent.createChooser(gallery, "Select a picture"), PICK_IMAGE_REQUEST)
-            //val intent = Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI)
-            //startActivityForResult(intent, PICK_IMAGE_REQUEST)
+
         }
 
 
@@ -80,7 +79,7 @@ class CreateAccountActivity : AppCompatActivity() {
             val firstname = firstNameEditText.text.toString().trim()
             val lastname = lastNameEditText.text.toString().trim()
 
-            if (validateAccountCreation(email, password, confirmPassword, dob,firstname,lastname)) {
+            if (validateAccountCreation(email, password, confirmPassword, dob,firstname,lastname,imageByteArray)) {
                 // whathappens after account creation ->add this data in tables
 
 
@@ -125,10 +124,10 @@ class CreateAccountActivity : AppCompatActivity() {
         datePickerDialog.show()
     }
 
-    private fun validateAccountCreation(email: String, password: String, confirmPassword: String, dob: String, firstname :String,lastname:String): Boolean {
+    private fun validateAccountCreation(email: String, password: String, confirmPassword: String, dob: String, firstname :String,lastname:String,image :ByteArray?): Boolean {
         // Basic validation logic
-        if (email.isEmpty() || password.isEmpty() || confirmPassword.isEmpty() || firstname.isEmpty() || lastname.isEmpty()) {
-            Toast.makeText(this, "All fields are required", Toast.LENGTH_SHORT).show()
+        if (email.isEmpty() || password.isEmpty() || confirmPassword.isEmpty() || firstname.isEmpty() || lastname.isEmpty() || image!!.isEmpty()) {
+            Toast.makeText(this, "All fields are required including profile!", Toast.LENGTH_SHORT).show()
             return false
         }
         if (password != confirmPassword) {
@@ -148,12 +147,10 @@ class CreateAccountActivity : AppCompatActivity() {
 
                 // Store image in the database
 
-
-                //dbHelper.addImage(imageByteArray)
             }
         }
 
-        }
+    }
 
     private fun loadBitmapFromUri(uri: android.net.Uri): Bitmap {
         return BitmapFactory.decodeStream(contentResolver.openInputStream(uri))

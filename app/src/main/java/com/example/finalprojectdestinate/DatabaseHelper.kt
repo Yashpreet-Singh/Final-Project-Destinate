@@ -48,6 +48,9 @@ class DatabaseHelper(context: Context) : SQLiteOpenHelper(context, DB_NAME, null
         private val COL_CURRENTUSER = "current_user"
         private val COL_CID = "dbcid"
 
+        private val COL_SEARCH = "search"
+        private val COL_LID = "dblid"
+
 
         // create table LocationData
         private val CREATE_TABLE_LOCATION = "CREATE TABLE IF NOT EXISTS LocationTable " +
@@ -61,9 +64,12 @@ class DatabaseHelper(context: Context) : SQLiteOpenHelper(context, DB_NAME, null
 
         private val CREATE_TABLE_CURRENT_USER = "CREATE TABLE IF NOT EXISTS CurrentUserTable ( $COL_CID INTEGER PRIMARY KEY AUTOINCREMENT, $COL_CURRENTUSER TEXT )"
 
+        private val CREATE_TABLE_SEARCH = "CREATE TABLE IF NOT EXISTS SearchTable ( $COL_LID INTEGER PRIMARY KEY AUTOINCREMENT, $COL_SEARCH TEXT )"
+
         private val DROP_TABLE_LOCATION = "DROP TABLE IF EXISTS LocationTable"
         private val DROP_TABLE_USER_TABLE = "DROP TABLE IF EXISTS UserTable "
         private val DROP_TABLE_CURRENT_USER = "DROP TABLE IF EXISTS CurrentUserTable "
+        private val DROP_TABLE_SEARCH = "DROP TABLE IF EXISTS SearchTable "
 
     }
 
@@ -72,6 +78,7 @@ class DatabaseHelper(context: Context) : SQLiteOpenHelper(context, DB_NAME, null
         db.execSQL(CREATE_TABLE_LOCATION)
         db.execSQL(CREATE_TABLE_USER_TABLE)
         db.execSQL(CREATE_TABLE_CURRENT_USER)
+        db.execSQL(CREATE_TABLE_SEARCH)
 
     }
 
@@ -80,6 +87,7 @@ class DatabaseHelper(context: Context) : SQLiteOpenHelper(context, DB_NAME, null
         db.execSQL(DROP_TABLE_LOCATION)
         db.execSQL(DROP_TABLE_USER_TABLE)
         db.execSQL(DROP_TABLE_CURRENT_USER)
+        db.execSQL(DROP_TABLE_SEARCH)
 
         //onCreate(db)
     }
@@ -122,6 +130,15 @@ class DatabaseHelper(context: Context) : SQLiteOpenHelper(context, DB_NAME, null
             insertDefaultCurrent()
         }
         c.close()
+
+        query = "SELECT * FROM SearchTable"
+
+        c = db.rawQuery(query, null)
+
+        if (c.count <= 0) {
+            insertDefaultSearch()
+        }
+        c.close()
     }
 
     fun insertAllUsers() {
@@ -159,6 +176,19 @@ class DatabaseHelper(context: Context) : SQLiteOpenHelper(context, DB_NAME, null
         values.put(COL_CID,0)
 
         db.insert("CurrentUserTable", null, values)
+
+
+    }
+
+    fun insertDefaultSearch(){
+
+        val db = this.writableDatabase
+        //add using to usertable
+        val values = ContentValues()
+        values.put(COL_SEARCH,"Syracuse")
+        values.put(COL_LID,0)
+
+        db.insert("SearchTable", null, values)
 
 
     }
@@ -394,6 +424,26 @@ class DatabaseHelper(context: Context) : SQLiteOpenHelper(context, DB_NAME, null
         return user
     }
 
+    fun getCurrentSearch(): String {
+
+        val db = this.readableDatabase
+
+        var search:String = "Syracuse"
+        val query = "SELECT * FROM SearchTable "
+
+        val c = db.rawQuery(query, null)
+
+        while (c.moveToNext()) {//iterate over all rows
+            search = c.getString(with(c) { getColumnIndex(COL_SEARCH) }) //unquie id
+
+        }
+        c.close()
+        Log.i("in database",search.toString())
+        return search
+
+
+    }
+
 
 
     //update a movie -on check status
@@ -477,6 +527,22 @@ class DatabaseHelper(context: Context) : SQLiteOpenHelper(context, DB_NAME, null
         }
 
         //Log.i("on database",user.toString())
+        fun updateCurrentSearch(currentSearch:String?,id:Int) {
+
+            val db = this.writableDatabase
+
+            val values = ContentValues()
+
+            Log.i("updating",currentSearch.toString())
+            values.put(COL_SEARCH,currentSearch)
+
+
+
+            db.update("SearchTable", values, "$COL_LID = ?", arrayOf(id.toString()))
+
+            db.close()
+
+        }
 
 
 

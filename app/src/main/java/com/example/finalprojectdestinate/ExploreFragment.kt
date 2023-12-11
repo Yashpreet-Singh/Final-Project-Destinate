@@ -50,7 +50,7 @@ class ExploreFragment : Fragment() {
     private lateinit var content : TextView
 
     private lateinit var mysearchValue :String
-    private lateinit var searchboxValue :String
+    //private lateinit var searchboxValue :String
     private  var currentLocation : String? = null
 
     lateinit var locationListdb: ArrayList<TripData>
@@ -75,11 +75,15 @@ class ExploreFragment : Fragment() {
 //
 //        Log.d("item ine xl=plore", currentUser.toString())
 
-        val activity: MainActivity? = activity as MainActivity?
-        searchboxValue = activity?.getSearchValue().toString()
-        Log.d("itemfrommain", searchboxValue)
+//        val activity: MainActivity? = activity as MainActivity?
+//        searchboxValue = activity?.getSearchValue().toString()
 
-        mysearchValue = searchboxValue
+        //retrieve from database
+
+        mysearchValue= myDB.getCurrentSearch()
+        Log.i("From explore",mysearchValue)
+
+        //mysearchValue = searchboxValue
 
 
         return view
@@ -146,11 +150,18 @@ class ExploreFragment : Fragment() {
             //set search value to current location only in Explore Fragemnt
             if(currentLocation != null) {
                 mysearchValue = currentLocation as String
+                //update dtaa
+                myDB.updateCurrentSearch(mysearchValue,0)
+
                 checkLocationInDB(view)
             }
             else{
                 Toast.makeText(requireContext(), "No current location...setting to Default", Toast.LENGTH_LONG).show()
                 mysearchValue = "Syracuse"
+                //update data
+                myDB.updateCurrentSearch(mysearchValue,0)
+
+
                 checkLocationInDB(view)
             }
 

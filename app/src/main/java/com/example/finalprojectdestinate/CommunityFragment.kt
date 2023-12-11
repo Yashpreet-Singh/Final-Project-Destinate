@@ -1,5 +1,10 @@
 package com.example.finalprojectdestinate
 
+import android.app.Notification
+import android.app.NotificationChannel
+import android.app.NotificationManager
+import android.content.Context
+import android.os.Build
 import android.os.Bundle
 import android.util.Log
 import androidx.fragment.app.Fragment
@@ -16,6 +21,8 @@ import android.widget.TextView
 import android.widget.Toast
 import androidx.activity.OnBackPressedCallback
 import androidx.cardview.widget.CardView
+import androidx.core.app.NotificationCompat
+import androidx.core.content.ContextCompat.getSystemService
 import androidx.core.view.get
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -36,7 +43,8 @@ import kotlin.properties.Delegates
 class CommunityFragment : Fragment(), RecycleAdapter.MyItemClickListener{
     // TODO: Rename and change types of parameters
 
-
+    private val CHANNEL_ID = "MyChannelID"
+    private val NOTIFICATION_ID = 1
     private lateinit var myAdapter: RecycleAdapter
     lateinit var locationListdb: ArrayList<TripData>
     lateinit var userListdb: ArrayList<UserData>
@@ -51,6 +59,9 @@ class CommunityFragment : Fragment(), RecycleAdapter.MyItemClickListener{
 
     private lateinit var currentUser: String
 
+    private lateinit var notificationManager: NotificationManager
+    lateinit var notificationChannel: NotificationChannel
+    private lateinit var builder: Notification.Builder
 
 
     private lateinit var addtitle: EditText
@@ -100,6 +111,9 @@ class CommunityFragment : Fragment(), RecycleAdapter.MyItemClickListener{
 
         recyclerView = view.findViewById(R.id.recyclerView1)
 
+        // Initialize NotificationManager
+
+        notificationManager = requireContext().getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
 
         //initializong my db and getting the values from db
         //myDB.initializeTables()
@@ -208,6 +222,9 @@ class CommunityFragment : Fragment(), RecycleAdapter.MyItemClickListener{
                 addimageurl.text.clear()
 
                 Toast.makeText(context, "Post uploaded!", Toast.LENGTH_SHORT).show()
+
+                displayNotification()
+
                 //make add_cardview gone
                 //addCard.visibility = View.GONE
 
@@ -263,6 +280,33 @@ class CommunityFragment : Fragment(), RecycleAdapter.MyItemClickListener{
         myDB.closeDB()
 
     }
+
+    private fun displayNotification() {
+
+        val channel = NotificationChannel(
+            CHANNEL_ID,
+            "Channel",
+            NotificationManager.IMPORTANCE_DEFAULT
+        )
+        channel.description = "My Channel Description"
+        notificationManager.createNotificationChannel(channel)
+
+        // Build the notification
+        builder = Notification.Builder(requireContext(), CHANNEL_ID)
+            .setContentTitle("Post Uploaded")
+            .setContentText("Check out the latest post!")
+            .setSmallIcon(R.drawable.baseline_circle_notifications_24)
+            .setAutoCancel(true)
+            .setPriority(Notification.PRIORITY_MAX)
+            .setCategory(NotificationCompat.CATEGORY_MESSAGE)
+
+
+        // Notify
+        notificationManager.notify(NOTIFICATION_ID, builder.build())
+    }
+
+
+
 
 
 

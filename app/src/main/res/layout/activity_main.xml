@@ -59,6 +59,7 @@
             app:itemBackground="@drawable/bottom_nav_background"
             android:elevation="80dp"
             android:layout_alignParentBottom="true"
+            android:fitsSystemWindows="true"
             app:menu="@menu/bottom_menu"/>
 
     </androidx.coordinatorlayout.widget.CoordinatorLayout>
