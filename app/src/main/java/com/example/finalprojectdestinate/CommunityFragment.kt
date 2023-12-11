@@ -57,7 +57,7 @@ class CommunityFragment : Fragment(), RecycleAdapter.MyItemClickListener{
     private lateinit var recyclerView: RecyclerView
     private lateinit var likeButton: ImageButton
 
-    private lateinit var currentUser: String
+    private var currentUser : String? =null
 
     private lateinit var notificationManager: NotificationManager
     lateinit var notificationChannel: NotificationChannel
@@ -98,10 +98,10 @@ class CommunityFragment : Fragment(), RecycleAdapter.MyItemClickListener{
 
 
         //get cuurent user from mainactivity
-        val activity: MainActivity? = activity as MainActivity?
-        currentUser = activity?.getCurrentUser().toString()
+//        val activity: MainActivity? = activity as MainActivity?
+//        currentUser = activity?.getCurrentUser().toString()
 
-
+        currentUser=myDB.getCurrentUser()
         // Inflate the layout for this fragment
         return view
     }

@@ -16,7 +16,7 @@ import com.google.android.material.shape.ShapeAppearanceModel
 import com.squareup.picasso.Picasso
 
 
-class RecycleAdapter (val userInfo: ArrayList<UserData>, val context: Context, val myDB: DatabaseHelper , val currentUser : String):
+class RecycleAdapter (val userInfo: ArrayList<UserData>, val context: Context, val myDB: DatabaseHelper , val currentUser : String?):
     androidx.recyclerview.widget.RecyclerView.Adapter<RecycleAdapter.UserViewHolder>(){
 
     var myListener: MyItemClickListener? = null

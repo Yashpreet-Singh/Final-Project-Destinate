@@ -15,6 +15,7 @@ import android.widget.Toast
 import androidx.fragment.app.FragmentActivity
 import androidx.fragment.app.FragmentManager
 import com.mikhaellopez.circularimageview.CircularImageView
+import java.util.Locale
 
 // TODO: Rename parameter arguments, choose names that match
 // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
@@ -173,7 +174,8 @@ class ExploreFragment : Fragment() {
     private fun checkLocationInDB(view:View):Boolean {
 
         for (place in locationListdb) {
-            if (place.location.equals(mysearchValue, ignoreCase = true)) {
+            if (place.location!!.toLowerCase(Locale.ROOT) == mysearchValue.toLowerCase(Locale.ROOT)
+            ) {
 
 
                 //initialize data
