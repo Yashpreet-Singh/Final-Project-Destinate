@@ -1,3 +1,7 @@
+![image](https://github.com/user-attachments/assets/942af85a-faa8-4669-8a96-5b7b7c4c2d37)
+
+
+
 DESTINATE is an all-in-one travel app that offers trip planning, booking, and community features for casual travelers and frequent adventurers alike.
 
 Main Features:
