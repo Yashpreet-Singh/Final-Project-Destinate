@@ -1,6 +1,4 @@
-![image](https://github.com/user-attachments/assets/942af85a-faa8-4669-8a96-5b7b7c4c2d37)
-
-
+# Android (Kotlin) project
 
 DESTINATE is an all-in-one travel app that offers trip planning, booking, and community features for casual travelers and frequent adventurers alike.
 
@@ -36,3 +34,5 @@ Main Features:
  * Geocoder for converting latitude and longitude to location names.
  * Retrofit and OkHttp for API integration.
  * XmlPullParser for parsing XML data.
+
+![image](https://github.com/user-attachments/assets/942af85a-faa8-4669-8a96-5b7b7c4c2d37)
